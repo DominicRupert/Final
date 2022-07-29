@@ -2,46 +2,50 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using Final.Models;
 using Final.Services;
+using Microsoft.AspNetCore.Mvc;
 using CodeWorks.Auth0Provider;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Final.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class KeepsController : ControllerBase
+    public class VaultsController : ControllerBase
     {
-        private readonly KeepsService _ks;
+        private readonly VaultsService _vs;
 
-        public KeepsController(KeepsService ks)
+        private readonly KeepsService _ks;
+        public VaultsController(VaultsService vs, KeepsService ks)
         {
+            _vs = vs;
             _ks = ks;
         }
-
+     
         [HttpGet]
-        public ActionResult<List<Keep>> Get()
+        public async Task<ActionResult<List<Vault>>> Get()
         {
             try
             {
-                return Ok(_ks.Get());
+                Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+                List<Vault> vaults = _vs.Get(userInfo?.Id);
+                return Ok(vaults);
             }
             catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
-
         }
 
         [HttpGet("{id}")]
-
-        public ActionResult<Keep> Get(int id)
+        public ActionResult<Vault> Get(int id)
         {
             try
             {
-                return Ok(_ks.Get(id));
+                Vault vault = _vs.Get(id);
+              
+                return Ok(vault);
             }
             catch (Exception e)
             {
@@ -51,16 +55,16 @@ namespace Final.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult<Keep>> Create([FromBody] Keep newKeep)
+
+        public async Task<ActionResult<Vault>> Create([FromBody] Vault newVault)
         {
             try
             {
                 Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
-                newKeep.CreatorId = userInfo.Id;
-                newKeep.Creator = userInfo;
-                Keep created = _ks.Create(newKeep);
-                return Ok(newKeep);
-
+                newVault.CreatorId = userInfo.Id;
+                newVault.Creator = userInfo;
+                Vault vault = _vs.Create(newVault);
+                return Ok(newVault);
             }
             catch (Exception e)
             {
@@ -70,21 +74,15 @@ namespace Final.Controllers
 
         [HttpPut("{id}")]
         [Authorize]
-        public async Task<ActionResult<Keep>> Edit(int id, [FromBody] Keep keepData)
+        public async Task<ActionResult<Vault>> Edit(int id, [FromBody] Vault vaultData)
         {
             try
             {
                 Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
-                Keep original = _ks.Get(id);
-                if (original.CreatorId != userInfo.Id)
-                {
-                    throw new Exception("You can only edit keeps that you created.");
-                }
-                keepData.Id = id;
-                keepData.CreatorId = userInfo.Id;
-                keepData.Creator = userInfo;
-                Keep edited = _ks.Edit(keepData);
-                return Ok(edited);
+                vaultData.CreatorId = userInfo.Id;
+                vaultData.Creator = userInfo;
+                Vault vault = _vs.Edit(id, vaultData);
+                return Ok(vault);
             }
             catch (Exception e)
             {
@@ -94,26 +92,24 @@ namespace Final.Controllers
 
         [HttpDelete("{id}")]
         [Authorize]
-        public async Task<ActionResult<Keep>> Delete(int id)
+        public async Task<ActionResult<Vault>> Delete(int id)
         {
             try
             {
                 Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
-
-                Keep deleted = _ks.Delete(id, userInfo.Id);
-                if (deleted.CreatorId != userInfo.Id)
+                Vault vault = _vs.Get(id);
+                if (vault.CreatorId != userInfo.Id)
                 {
-                    throw new Exception("You can only delete keeps that you created.");
+                    return BadRequest("You do not have permission to delete this vault");
                 }
-                return Ok(deleted);
-
-
+                _vs.Delete(id);
+                return Ok();
             }
             catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
         }
-
+        
     }
 }

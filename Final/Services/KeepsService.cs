@@ -27,6 +27,11 @@ namespace Final.Services
 
         internal Keep Get(int id)
         {
+            Keep found = _repo.Get(id);
+            if (found == null)
+            {
+                throw new Exception("Invalid Id");
+            }
             return _repo.Get(id);
         }
 
@@ -35,18 +40,34 @@ namespace Final.Services
             return _repo.Create(newKeep);
         }
 
+
+        internal Keep Edit(Keep keepData)
+        {
+            Keep original = _repo.Get(keepData.Id);
+            if (original.CreatorId != keepData.CreatorId)
+            {
+                throw new Exception("You can only edit keeps that you created.");
+            }
+            original.Name = keepData.Name ?? original.Name;
+            original.Description = keepData.Description ?? original.Description;
+            original.Img = keepData.Img ?? original.Img;
+
+            _repo.Edit(original);
+            return original;
+        }
         internal Keep Delete(int id, string userId)
         {
-            Keep original = _repo.Get(id);
+            Keep original = Get(id);
             if (original.CreatorId != userId)
             {
                 throw new Exception("You can only delete keeps that you created.");
             }
-            return _repo.Delete(id);
+             _repo.Delete(id);
+            return original;
 
 
-            }
-       
-        
+        }
+
+
     }
 }

@@ -65,9 +65,23 @@ namespace Final.Repositories
 
         }
 
-        internal Keep Delete(string id)
+        internal void Edit(Keep keepData)
         {
-            throw new NotImplementedException();
+            string sql = @"
+            UPDATE keeps
+            SET name = @Name, description = @Description, img = @Img, views = @Views, kept = @Kept
+            
+           WHERE id = @Id";
+            _db.Execute(sql, keepData);
+        
+        }
+
+        public void Delete(int id)
+        {
+            string sql = @"
+            DELETE FROM keeps
+            WHERE id = @id LIMIT 1";
+            _db.Execute(sql, new { id });
         }
     }
 }
