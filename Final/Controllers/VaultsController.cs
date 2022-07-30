@@ -41,11 +41,11 @@ namespace Final.Controllers
 
         [HttpGet("{id}")]
         [Authorize]
-        public ActionResult<Vault> Get(int id, string userId)
+        public ActionResult<Vault> Get(int id)
         {
             try
             {
-                Vault vault = _vs.Get(id, userId);
+                Vault vault = _vs.Get(id);
               
                 return Ok(vault);
             }
@@ -95,12 +95,12 @@ namespace Final.Controllers
 
         [HttpDelete("{id}")]
         [Authorize]
-        public async Task<ActionResult<Vault>> Delete(int id, string userId)
+        public async Task<ActionResult<Vault>> Delete(int id)
         {
             try
             {
                 Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
-                Vault vault = _vs.Get(id, userId);
+                Vault vault = _vs.Get(id);
                 if (vault.CreatorId != userInfo.Id)
                 {
                     return BadRequest("You do not have permission to delete this vault");

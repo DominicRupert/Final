@@ -21,4 +21,9 @@ namespace Final.Models
 
         
     }
+
+    public class VaultKeepModel : Keep
+    {
+        public int VaultKeepId { get; set; }
+    }
 }

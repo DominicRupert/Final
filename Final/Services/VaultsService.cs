@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Final.Models;
-using Final.Repositories;   
+using Final.Repositories;
 
 namespace Final.Services
 {
@@ -18,7 +18,7 @@ namespace Final.Services
         private Vault Validate(int id, string userId)
         {
             Vault found = _repo.Get(id);
-         
+
             if (found.CreatorId != userId)
             {
                 throw new Exception("You can only edit vaults that you created.");
@@ -31,22 +31,34 @@ namespace Final.Services
             List<Vault> vaults = _repo.Get();
             return vaults.FindAll(v => v.IsPrivate == false || v.CreatorId == userId);
         }
-    
 
-        internal Vault Get(int id, string userId)
+        internal Vault Get(int id)
         {
-            Vault found = Validate(id, userId);
-            _repo.Get(id);
-            return found;
+            Vault vaults = _repo.Get(id);
+            if (vaults == null)
+            {
+                throw new Exception("Vault not found.");
+            }
+         
+
+            return vaults;
         }
-      
+
+
+
+
 
         internal Vault Create(Vault newVault)
         {
+            // Vault found = _repo.FindExisting(newVault);
+            // if (found != null)
+            // {
+            //     throw new Exception("Vault already exists.");
+            // }
             return _repo.Create(newVault);
         }
 
-        internal Vault Edit( Vault vaultData)
+        internal Vault Edit(Vault vaultData)
         {
             Vault original = Validate(vaultData.Id, vaultData.CreatorId);
             if (original.CreatorId != vaultData.CreatorId)
@@ -63,9 +75,9 @@ namespace Final.Services
         internal void Delete(int id, string userId)
         {
             Vault original = Validate(id, userId);
-         
+
             _repo.Delete(id);
         }
-    
+
     }
-    }
+}

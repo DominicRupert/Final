@@ -15,6 +15,12 @@ namespace Final.Repositories
         {
             _db = db;
         }
+           internal Vault FindExisting(Vault newVault)
+        {
+            string sql = "SELECT * FROM vaults WHERE vaultId = @VaultId AND creatorId = @CreatorId";
+            return _db.Query<Vault>(sql, newVault).FirstOrDefault();
+
+        }
 
         internal List<Vault> Get()
         {
@@ -47,6 +53,8 @@ namespace Final.Repositories
                 return vault;
             }, new { id }).FirstOrDefault();
         }
+
+     
         internal Vault Create(Vault newVault)
         {
             string sql = @"
