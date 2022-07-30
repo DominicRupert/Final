@@ -24,6 +24,7 @@ namespace Final.Controllers
         }
      
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<List<Vault>>> Get()
         {
             try
@@ -39,11 +40,12 @@ namespace Final.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Vault> Get(int id)
+        [Authorize]
+        public ActionResult<Vault> Get(int id, string userId)
         {
             try
             {
-                Vault vault = _vs.Get(id);
+                Vault vault = _vs.Get(id, userId);
               
                 return Ok(vault);
             }
@@ -79,9 +81,10 @@ namespace Final.Controllers
             try
             {
                 Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+                vaultData.Id = id;
                 vaultData.CreatorId = userInfo.Id;
                 vaultData.Creator = userInfo;
-                Vault vault = _vs.Edit(id, vaultData);
+                Vault vault = _vs.Edit(vaultData);
                 return Ok(vault);
             }
             catch (Exception e)
@@ -92,17 +95,17 @@ namespace Final.Controllers
 
         [HttpDelete("{id}")]
         [Authorize]
-        public async Task<ActionResult<Vault>> Delete(int id)
+        public async Task<ActionResult<Vault>> Delete(int id, string userId)
         {
             try
             {
                 Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
-                Vault vault = _vs.Get(id);
+                Vault vault = _vs.Get(id, userId);
                 if (vault.CreatorId != userInfo.Id)
                 {
                     return BadRequest("You do not have permission to delete this vault");
                 }
-                _vs.Delete(id);
+                _vs.Delete(id, userInfo.Id);
                 return Ok();
             }
             catch (Exception e)

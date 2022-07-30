@@ -15,6 +15,16 @@ namespace Final.Services
         {
             _repo = repo;
         }
+        private Vault Validate(int id, string userId)
+        {
+            Vault found = _repo.Get(id);
+         
+            if (found.CreatorId != userId)
+            {
+                throw new Exception("You can only edit vaults that you created.");
+            }
+            return found;
+        }
 
         internal List<Vault> Get(string userId)
         {
@@ -23,24 +33,39 @@ namespace Final.Services
         }
     
 
-        internal Vault Get(int id)
+        internal Vault Get(int id, string userId)
         {
-            return _repo.Get(id);
+            Vault found = Validate(id, userId);
+            _repo.Get(id);
+            return found;
         }
+      
 
         internal Vault Create(Vault newVault)
         {
-            throw new NotImplementedException();
+            return _repo.Create(newVault);
         }
 
-        internal Vault Edit(int id, Vault vaultData)
+        internal Vault Edit( Vault vaultData)
         {
-            throw new NotImplementedException();
+            Vault original = Validate(vaultData.Id, vaultData.CreatorId);
+            if (original.CreatorId != vaultData.CreatorId)
+            {
+                throw new Exception("You can only edit vaults that you created.");
+            }
+            original.Name = vaultData.Name ?? original.Name;
+            original.Description = vaultData.Description ?? original.Description;
+            original.IsPrivate = vaultData.IsPrivate ?? original.IsPrivate;
+            _repo.Edit(original);
+            return original;
         }
 
-        internal void Delete(int id)
+        internal void Delete(int id, string userId)
         {
-            throw new NotImplementedException();
+            Vault original = Validate(id, userId);
+         
+            _repo.Delete(id);
         }
+    
     }
     }

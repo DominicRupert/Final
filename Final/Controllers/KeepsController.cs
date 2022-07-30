@@ -41,6 +41,7 @@ namespace Final.Controllers
         {
             try
             {
+                
                 return Ok(_ks.Get(id));
             }
             catch (Exception e)
