@@ -69,6 +69,23 @@ namespace Final.Repositories
             return newVault;
         }
 
+        internal List<Vault> GetVaultsByUserId(string id)
+        {
+            string sql = @"
+            SELECT 
+            v.*,
+            a.*
+            FROM vaults v
+            JOIN accounts a ON a.id = v.creatorId
+            WHERE a.id = @id";
+
+            return _db.Query<Profile, Vault, Vault>(sql, (prof, vault)=>
+            {
+                vault.Creator = prof;
+                return vault;
+            }).ToList();
+        }
+
         internal void Edit(Vault original)
         {
             string sql = @"

@@ -65,6 +65,24 @@ namespace Final.Repositories
 
         }
 
+        internal List<Keep> GetKeepsByUserId(string id)
+        {
+            string sql = @"
+            SELECT 
+            a.*,
+            k.*
+            FROM keeps k
+            JOIN accounts a ON a.id = k.creatorId
+            WHERE k.creatorId = @id";
+
+            return _db.Query<Profile, Keep, Keep>(sql, (prof, keep)=>
+            {
+                keep.Creator = prof;
+                return keep;
+            }).ToList();
+
+        }
+
         internal void Edit(Keep keepData)
         {
             string sql = @"
@@ -82,7 +100,7 @@ namespace Final.Repositories
             SELECT 
             a.*
             v.*,
-            k.*
+            k.id AS keepId,
             FROM keeps k
             JOIN vaults v ON v.id = k.vaultId
             JOIN accounts a ON a.id = v.creatorId

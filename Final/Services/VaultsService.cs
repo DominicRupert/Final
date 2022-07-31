@@ -58,6 +58,11 @@ namespace Final.Services
             return _repo.Create(newVault);
         }
 
+        internal List<Vault> GetVaultsByUserId(string id)
+        {
+            return _repo.GetVaultsByUserId(id);
+        }
+
         internal Vault Edit(Vault vaultData)
         {
             Vault original = Validate(vaultData.Id, vaultData.CreatorId);

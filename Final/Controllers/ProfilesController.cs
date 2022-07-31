@@ -31,8 +31,8 @@ namespace Final.Controllers
             _ks = ks;
         }
 
-        [HttpGet]
-        public ActionResult<Profile> Get(string id)
+        [HttpGet("{id}")]
+        public ActionResult<Profile> getById(string id)
         {
             try
             {
@@ -44,6 +44,35 @@ namespace Final.Controllers
                 return BadRequest(e.Message);
             }
         }
+        [HttpGet("{id}/keeps")]
+        public ActionResult<List<Keep>> getKeepsById(string id)
+        {
+            try
+            {
+                List<Keep> keeps = _ks.GetKeepsByUserId(id);
+                return Ok(keeps);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpGet("{id}/vaults")]
+        public ActionResult<List<Vault>> getVaults(string id)
+        {
+            try
+            {
+                List<Vault> vaults = _vs.GetVaultsByUserId(id);
+                return Ok(vaults);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+
         
 
         

@@ -55,6 +55,13 @@ namespace Final.Services
             _repo.Edit(original);
             return original;
         }
+
+        internal List<Keep> GetKeepsByUserId(string id)
+        {
+            return _repo.GetKeepsByUserId(id);
+        
+            }
+
         internal Keep Delete(int id, string userId)
         {
             Keep original = Get(id);
@@ -68,9 +75,9 @@ namespace Final.Services
 
         }
 
-        internal List<VaultKeepModel> GetMyVaults(string id)
+        internal List<VaultKeepModel> GetMyVaults(string userId)
         {
-            return _repo.GetMyVaults(id);
+            return _repo.GetMyVaults(userId);
         }
 
         // internal List<VaultKeepModel> GetByVaultId(int id)

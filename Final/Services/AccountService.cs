@@ -41,11 +41,8 @@ namespace Final.Services
         internal Profile GetByProfileId(string id)
         {
             Profile found = _repo.GetById(id);
-            if (found == null)
-            {
-                throw new Exception("Invalid Id");
-            }
             return found;
+          
         }
     }
 }
