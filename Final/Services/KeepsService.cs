@@ -68,6 +68,14 @@ namespace Final.Services
 
         }
 
+        internal List<VaultKeepModel> GetMyVaults(string id)
+        {
+            return _repo.GetMyVaults(id);
+        }
 
+        // internal List<VaultKeepModel> GetByVaultId(int id)
+        // {
+        //     return _repo.GetByVaultId(id);
+        // }
     }
 }

@@ -76,6 +76,40 @@ namespace Final.Repositories
         
         }
 
+        internal List<VaultKeepModel> GetMyVaults(string id)
+        {
+            string sql = @"
+            SELECT 
+            a.*
+            v.*,
+            k.*
+            FROM keeps k
+            JOIN vaults v ON v.id = k.vaultId
+            JOIN accounts a ON a.id = v.creatorId
+            WHERE k.profileId = @id";
+            return _db.Query<Account, VaultKeepModel, VaultKeepModel>(sql, (a, vkkmv) =>
+            {
+                vkkmv.Creator = a;
+                return vkkmv;
+            }, new { id }).ToList();
+            
+
+        }
+
+        // internal List<VaultKeepModel> GetByVaultId(int id)
+        // {
+        //     string sql = @"
+        //     SELECT
+        //     a.*,
+        //     k.*
+
+        //     FROM keeps k
+        //     JOIN accounts a ON k.creatorId = a.id
+        //     WHERE k.vaultId = @id";
+
+        //     return _db.Query<VaultKeepModel>(sql, new { id }).ToList();
+        // }
+
         public void Delete(int id)
         {
             string sql = @"

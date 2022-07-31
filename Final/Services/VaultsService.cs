@@ -72,6 +72,12 @@ namespace Final.Services
             return original;
         }
 
+        internal List<Vault> GetVaults(string id)
+        {
+            List<Vault> vaults = _repo.Get();
+            return vaults;
+        }
+
         internal void Delete(int id, string userId)
         {
             Vault original = Validate(id, userId);

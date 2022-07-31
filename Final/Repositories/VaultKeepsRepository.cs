@@ -45,4 +45,24 @@ namespace Final.Repositories
             return _db.Execute(sql, new { id });
 
     }
+
+    internal List<VaultKeepModel> GetVaultKeeps(int vaultId)
+    {
+        string sql = @"
+        SELECT 
+        k.*,
+        vk.id AS vaultKeepId,
+        a.*
+        FROM vaultkeeps vk
+        JOIN keeps k ON vk.keepId = k.id
+        JOIN accounts a ON k.creatorId = a.id 
+        WHERE vk.vaultId = @vaultId";
+        return _db.Query<VaultKeepModel, Profile, VaultKeepModel>(sql, (vkkmv, a) =>
+        {
+            vkkmv.Creator = a;
+           
+            return vkkmv;
+        }, new { vaultId }).ToList();
+        
+    }
 }}

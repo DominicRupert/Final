@@ -19,14 +19,10 @@ namespace Final.Services
             return _repo.Create(newVaultKeep);
         }
 
-        internal VaultKeep Get(int id, string userId)
+      internal List<VaultKeepModel> GetVaultKeeps(int vaultId)
         {
-            VaultKeep found = _repo.Get(id);
-            if (found.CreatorId != userId)
-            {
-                throw new Exception("You can only edit vaults that you created.");
-            }
-            return found;
+            List<VaultKeepModel> keeps = _repo.GetVaultKeeps(vaultId);
+            return keeps;
         }
      
 

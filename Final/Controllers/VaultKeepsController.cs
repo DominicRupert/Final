@@ -15,11 +15,16 @@ namespace Final.Controllers
     public class VaultKeepsController : ControllerBase
     {
         private readonly VaultKeepsService _vks;
-
-        public VaultKeepsController(VaultKeepsService vks)
+        private readonly VaultsService _vs;
+        private readonly KeepsService _ks;
+        public VaultKeepsController(VaultKeepsService vks, VaultsService vs, KeepsService ks)
         {
             _vks = vks;
+            _vs = vs;
+            _ks = ks;
         }
+
+     
 
         [HttpPost]
         [Authorize]

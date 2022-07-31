@@ -1,3 +1,4 @@
+using System;
 using Final.Models;
 using Final.Repositories;
 
@@ -35,6 +36,16 @@ namespace Final.Services
             original.Name = editData.Name.Length > 0 ? editData.Name : original.Name;
             original.Picture = editData.Picture.Length > 0 ? editData.Picture : original.Picture;
             return _repo.Edit(original);
+        }
+
+        internal Profile GetByProfileId(string id)
+        {
+            Profile found = _repo.GetById(id);
+            if (found == null)
+            {
+                throw new Exception("Invalid Id");
+            }
+            return found;
         }
     }
 }

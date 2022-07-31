@@ -14,11 +14,19 @@ namespace Final.Controllers
     public class AccountController : ControllerBase
     {
         private readonly AccountService _accountService;
+        private readonly VaultKeepsService _vaultKeepsService;
+        private readonly VaultsService _vaultsService;
+        private readonly KeepsService _keepsService;
 
-        public AccountController(AccountService accountService)
+        public AccountController(AccountService accountService, VaultKeepsService vaultKeepsService, VaultsService vaultsService, KeepsService keepsService)
         {
             _accountService = accountService;
+            _vaultKeepsService = vaultKeepsService;
+            _vaultsService = vaultsService;
+            _keepsService = keepsService;
         }
+      
+        
 
         [HttpGet]
         [Authorize]
@@ -28,6 +36,22 @@ namespace Final.Controllers
             {
                 Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
                 return Ok(_accountService.GetOrCreateProfile(userInfo));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpGet("vaults")]
+        [Authorize]
+        public async Task<ActionResult<List<VaultKeepModel>>> GetAccountVaults()
+        {
+            try
+            {
+                Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+                List<VaultKeepModel> vaults = _keepsService.GetMyVaults(userInfo.Id);
+                return Ok(vaults);
             }
             catch (Exception e)
             {

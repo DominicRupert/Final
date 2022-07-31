@@ -17,11 +17,15 @@ namespace Final.Controllers
         private readonly VaultsService _vs;
 
         private readonly KeepsService _ks;
-        public VaultsController(VaultsService vs, KeepsService ks)
+
+        private readonly VaultKeepsService _vks;
+        public VaultsController(VaultsService vs, KeepsService ks, VaultKeepsService vks)
         {
             _vs = vs;
             _ks = ks;
+            _vks = vks;
         }
+      
      
         [HttpGet]
         [Authorize]
@@ -113,6 +117,25 @@ namespace Final.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+        [HttpGet("{vaultId}/keeps")]
+        public async Task<ActionResult<List<VaultKeepModel>>> GetVaultKeeps(int vaultId)
+        {
+            try
+            {
+                Vault vault = _vs.Get(vaultId);
+                Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+                List<VaultKeepModel> keeps = _vks.GetVaultKeeps(vaultId);
+                return Ok(keeps);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+
+        
         
     }
 }
