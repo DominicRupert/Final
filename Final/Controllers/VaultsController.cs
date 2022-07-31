@@ -28,13 +28,12 @@ namespace Final.Controllers
       
      
         [HttpGet]
-        [Authorize]
-        public async Task<ActionResult<List<Vault>>> Get()
+        public  ActionResult<List<Vault>> Get()
         {
             try
             {
-                Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
-                List<Vault> vaults = _vs.Get(userInfo?.Id);
+                // Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+                List<Vault> vaults = _vs.Get();
                 return Ok(vaults);
             }
             catch (Exception e)
@@ -45,11 +44,16 @@ namespace Final.Controllers
 
         [HttpGet("{id}")]
         [Authorize]
-        public ActionResult<Vault> Get(int id)
+        public async Task<ActionResult<Vault>> Get(int id)
         {
             try
             {
+                Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
                 Vault vault = _vs.Get(id);
+                if(vault.IsPrivate == true && vault.CreatorId != userInfo.Id)
+                {
+                    return Forbid();
+                }
               
                 return Ok(vault);
             }

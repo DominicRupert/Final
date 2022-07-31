@@ -58,7 +58,8 @@ namespace Final.Services
 
         internal List<Keep> GetKeepsByUserId(string id)
         {
-            return _repo.GetKeepsByUserId(id);
+           List<Keep> keeps =  _repo.GetKeepsByUserId(id);
+              return keeps;
         
             }
 
@@ -75,9 +76,14 @@ namespace Final.Services
 
         }
 
-        internal List<VaultKeepModel> GetMyVaults(string userId)
+        internal List<Vault> GetMyVaults(string userId)
         {
             return _repo.GetMyVaults(userId);
+        }
+
+        internal List<Keep> GetKeepsByVaultId(int id)
+        {
+            return _repo.GetKeepsByVaultId(id);
         }
 
         // internal List<VaultKeepModel> GetByVaultId(int id)

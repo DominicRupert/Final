@@ -1,18 +1,35 @@
 <template>
-  <div class="home flex-grow-1 d-flex flex-column align-items-center justify-content-center">
-    <div class="home-card p-5 bg-white rounded elevation-3">
-      <img src="https://bcw.blob.core.windows.net/public/img/8600856373152463" alt="CodeWorks Logo" class="rounded-circle">
-      <h1 class="my-5 bg-dark text-white p-3 rounded text-center">
-        Vue 3 Starter
-      </h1>
+  <div class="home">
+    <div>
+
+      <div v-for="k in keeps" :key="k.id" class="col-md-4">
+        <Keep :keep="k" />
     </div>
-  </div>
+    </div>
+    </div>
 </template>
 
 <script>
+import { logger } from '../utils/Logger.js'
+import {computed, onMounted, ref} from 'vue'
+import {AppState} from '../AppState.js'
+import { keepsService } from '../services/KeepsService.js'
 export default {
-  name: 'Home'
+  name: 'Home',
+  setup(){  onMounted(async ()=>{
+    try{
+      await keepsService.getKeeps()
+    }catch(e){
+      logger.error(e)
+
+    }
+  })
+  return {
+    keeps: computed(()=>AppState.keeps)
+  }
+  }
 }
+
 </script>
 
 <style scoped lang="scss">

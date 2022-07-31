@@ -45,12 +45,12 @@ namespace Final.Controllers
 
         [HttpGet("vaults")]
         [Authorize]
-        public async Task<ActionResult<List<VaultKeepModel>>> GetAccountVaults()
+        public async Task<ActionResult<List<Vault>>> GetAccountVaults()
         {
             try
             {
                 Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
-                List<VaultKeepModel> vaults = _keepsService.GetMyVaults(userInfo.Id);
+                List<Vault> vaults = _keepsService.GetMyVaults(userInfo.Id);
                 return Ok(vaults);
             }
             catch (Exception e)

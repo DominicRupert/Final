@@ -94,24 +94,55 @@ namespace Final.Repositories
         
         }
 
-        internal List<VaultKeepModel> GetMyVaults(string id)
+        internal List<Keep> GetKeepsByVaultId(int id)
+        {
+            string sql = @"
+            select
+            k.*,
+            a.*
+            from keeps k
+            join accounts a on k.creatorId = a.id
+            where k.id = @id";
+            return _db.Query<Keep, Profile, Keep>(sql, (keep, prof)=>
+            {
+                keep.Creator = prof;
+                return keep;
+            }).ToList();
+        }
+
+        // internal List<VaultKeepModel> GetMyVaults(string id)
+        // {
+        //     string sql = @"
+        //     SELECT 
+        //     a.*
+        //     v.*,
+        //     k.id AS keepId,
+        //     FROM keeps k
+        //     JOIN vaults v ON v.id = k.vaultId
+        //     JOIN accounts a ON a.id = v.creatorId
+        //     WHERE k.profileId = @id";
+        //     return _db.Query<Account, VaultKeepModel, VaultKeepModel>(sql, (a, vkkmv) =>
+        //     {
+        //         vkkmv.Creator = a;
+        //         return vkkmv;
+        //     }, new { id }).ToList();
+            
+
+        // }
+        internal List <Vault> GetMyVaults(string id)
         {
             string sql = @"
             SELECT 
-            a.*
             v.*,
-            k.id AS keepId,
-            FROM keeps k
-            JOIN vaults v ON v.id = k.vaultId
+            a.*
+            FROM vaults v
             JOIN accounts a ON a.id = v.creatorId
-            WHERE k.profileId = @id";
-            return _db.Query<Account, VaultKeepModel, VaultKeepModel>(sql, (a, vkkmv) =>
+            WHERE a.id = @id";
+            return _db.Query<Vault, Profile, Vault>(sql, (vault, prof)=>
             {
-                vkkmv.Creator = a;
-                return vkkmv;
-            }, new { id }).ToList();
-            
-
+                vault.Creator = prof;
+                return vault;
+            }).ToList();
         }
 
         // internal List<VaultKeepModel> GetByVaultId(int id)

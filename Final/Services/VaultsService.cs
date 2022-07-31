@@ -15,21 +15,22 @@ namespace Final.Services
         {
             _repo = repo;
         }
-        private Vault Validate(int id, string userId)
-        {
-            Vault found = _repo.Get(id);
+        // private Vault Validate(int id, string userId)
+        // {
+        //     Vault found = _repo.Get(id);
 
-            if (found.CreatorId != userId)
-            {
-                throw new Exception("You can only edit vaults that you created.");
-            }
-            return found;
-        }
+        //     if (found.CreatorId != userId)
+        //     {
+        //         throw new Exception("You can only edit vaults that you created.");
+        //     }
+        //     return found;
+        // }
 
-        internal List<Vault> Get(string userId)
+        internal List<Vault> Get()
         {
             List<Vault> vaults = _repo.Get();
-            return vaults.FindAll(v => v.IsPrivate == false || v.CreatorId == userId);
+            // return vaults.FindAll(v => v.IsPrivate == false || v.CreatorId == userId);
+            return vaults;
         }
 
         internal Vault Get(int id)
@@ -60,19 +61,20 @@ namespace Final.Services
 
         internal List<Vault> GetVaultsByUserId(string id)
         {
-            return _repo.GetVaultsByUserId(id);
+            List<Vault> vaults = _repo.GetVaultsByUserId(id);
+            return vaults;
         }
 
         internal Vault Edit(Vault vaultData)
         {
-            Vault original = Validate(vaultData.Id, vaultData.CreatorId);
+            Vault original = Get(vaultData.Id);
             if (original.CreatorId != vaultData.CreatorId)
             {
                 throw new Exception("You can only edit vaults that you created.");
             }
             original.Name = vaultData.Name ?? original.Name;
             original.Description = vaultData.Description ?? original.Description;
-            original.IsPrivate = vaultData.IsPrivate ?? original.IsPrivate;
+            original.IsPrivate = vaultData.IsPrivate;
             _repo.Edit(original);
             return original;
         }
@@ -85,7 +87,11 @@ namespace Final.Services
 
         internal void Delete(int id, string userId)
         {
-            Vault original = Validate(id, userId);
+            Vault original = Get(id);
+            if (original.CreatorId != userId)
+            {
+                throw new Exception("You can only delete vaults that you created.");
+            }
 
             _repo.Delete(id);
         }
