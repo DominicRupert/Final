@@ -1,11 +1,14 @@
 <template>
-  <div class="home">
-    <div>
+  <div class="container masonry-with-columns ">
+    
+    
+   
 
-      <div v-for="k in keeps" :key="k.id" class="col-md-4">
+      <div v-for="k in keeps" :key="k.id" class=" p-3 ">
         <Keep :keep="k" />
     </div>
-    </div>
+  
+   
     </div>
 </template>
 
@@ -33,6 +36,16 @@ export default {
 </script>
 
 <style scoped lang="scss">
+
+.masonry-with-columns {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: grid;
+  padding: 2em;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-auto-rows: minmax(100px, auto);
+}
+
 .home{
   display: grid;
   height: 80vh;
