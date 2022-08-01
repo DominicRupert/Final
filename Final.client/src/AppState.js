@@ -4,6 +4,7 @@ import { reactive } from 'vue'
 export const AppState = reactive({
   user: {},
   account: {},
+  activeProfile: {},
   accountKeeps: [],
   accountVaults: [],
   keeps: [],
@@ -11,6 +12,11 @@ export const AppState = reactive({
   vaultKeeps: [],
   activeKeep: {},
   activeVault: {},
+  activeVaultKeep: {},
+  activeVaultKeeps: [],
+  profileVaults: [],
+  profileKeeps: [],
+  activeVaultKeeps: [],
 
 
 

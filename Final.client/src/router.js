@@ -27,7 +27,13 @@ const routes = [
     name: 'VaultPage',
     component: loadPage('VaultPage'),
     beforeEnter: authSettled
-  }
+  },
+  {
+    path: '/profiles/:id',
+    name: 'Profile',
+    component: loadPage('ProfilePage'),
+  },
+
 ]
 
 export const router = createRouter({

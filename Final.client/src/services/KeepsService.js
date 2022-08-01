@@ -24,6 +24,14 @@ class KeepsService{
             logger.error(error);
         }
     }
+    async getKeepsByProfile(profileId){
+        try{
+            const res = await api.get(`api/profiles/${profileId}/keeps`);
+            AppState.profileKeeps = res.data;
+        }catch(error){
+            logger.error(error);
+        }
+    }
 
     async getKeep(id){
         try{
@@ -52,6 +60,12 @@ class KeepsService{
         }catch(error){
             logger.error(error);
         }
+    }
+
+    async setActive(keep){
+        AppState.activeKeep=keep;
+        const res = await api.get(`api/keeps/${keep.id}`);
+        AppState.activeKeep=res.data;
     }
 
 }
