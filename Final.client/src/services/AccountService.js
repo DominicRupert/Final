@@ -14,7 +14,7 @@ class AccountService {
 
   async getAccountKeeps() {
     try {
-      const res = await api.get('/account/keeps')
+      const res = await api.get('account/keeps')
       AppState.accountKeeps = res.data
     } catch (err) {
       logger.error('no', err)
@@ -23,7 +23,7 @@ class AccountService {
 
   async getAccountVaults() {
     try {
-      const res = await api.get('/account/vaults')
+      const res = await api.get('account/vaults')
       AppState.accountVaults = res.data
     } catch (err) {
       logger.error('no', err)

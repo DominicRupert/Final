@@ -26,6 +26,7 @@ class VaultsService{
         const res = await api.delete(`api/vaults/${id}`);
         AppState.vaults = AppState.vaults.filter(vault => vault.id !== id);
     }
+    
 }
 
 export const vaultsService = new VaultsService();

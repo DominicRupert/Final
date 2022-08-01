@@ -14,7 +14,7 @@
     <div class=" bg-dark">
     </div>
     </div>
-        <img @click="goToProfile" :src="account.picture " class="pfp img-fluid p-0 rounded-pill selectable" alt="">
+        <img @click="goToProfile" :src="keep.creator.picture " class="pfp img-fluid p-0 rounded-pill selectable" alt="">
 </template>
 
 
@@ -36,19 +36,20 @@ export default {
         const router = useRouter()
         return {
             async goToProfile(){
-                await router.push({name: 'Profile', params: {id: props.keep.creator.id}})
+                await router.push({name: 'Profile', params: {id: props.keep.creatorId}})
             },
             
             async setActive(){
                try{
                 keepsService.setActive(props.keep)
+                
                }catch (error){
                 logger.error(error)
                }
             },
+            keeps: computed(()=>AppState.keeps),
             account: computed(()=>AppState.account),
             vaults: computed(()=>AppState.vaults),
-            keeps: computed(()=>AppState.keeps),
         }
     }
 }

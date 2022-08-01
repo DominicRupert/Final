@@ -1,29 +1,33 @@
-<template>
-  <div class="container masonry-with-columns ">
-    
-    
-   
 
-      <div v-for="k in keeps" :key="k.id" class=" p-3 ">
+<template>
+<div class="home">
+
+  <div class="container masonry-with-columns ">
+    <div v-for="k in keeps" :key="k.id" class=" p-3 ">
         <Keep :keep="k" />
     </div>
   
    
     </div>
+    </div>
 </template>
 
 <script>
-import { logger } from '../utils/Logger.js'
 import {computed, onMounted, ref} from 'vue'
 import {AppState} from '../AppState.js'
+import { logger } from '../utils/Logger.js'
 import { keepsService } from '../services/KeepsService.js'
+import { useRoute } from 'vue-router'
+import  Pop  from '../utils/Pop.js'
 export default {
-  name: 'Home',
+  // name: 'Home',
   setup(){  onMounted(async ()=>{
     try{
       await keepsService.getKeeps()
     }catch(e){
       logger.error(e)
+      Pop.toast(e.message)
+
 
     }
   })

@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-md-6">
                 <img :src="keep.img" class="img-fluid py-2" alt="">
-                <button class="btn btn-dark"> <h3>Add To Vault</h3></button>
+                <button @click="addToVault" class="btn btn-dark"> <h3>Add To Vault</h3></button>
             </div>
             <div class="col-md-6">
                 <h3>{{keep.name}}</h3>
@@ -16,14 +16,6 @@
             </div>
         </div>
     </template>
-   
-   
-   
-   
-   
-   
-   
-   
    
    </Modal>
 </template>
@@ -39,8 +31,16 @@ import { keepsService } from '../services/KeepsService.js'
 export default {
     setup(){
         return {
-            keep: computed(()=>AppState.activeKeep),
+            keep: computed(()=>AppState.keeps),
             vaults: computed(()=>AppState.vaults),
+            async addToVault(){
+                try{
+                    await keepsService.addToVault(this.keep)
+                }catch(e){
+                    logger.error(e)
+                    Pop.toast(e.message)
+                }
+            } 
         }
     }
 }

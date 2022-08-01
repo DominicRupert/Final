@@ -49,6 +49,7 @@ namespace Final.Controllers
         {
             try
             {
+                _as.GetByProfileId(id);
                 List<Keep> keeps = _ks.GetKeepsByUserId(id);
                 return Ok(keeps);
             }

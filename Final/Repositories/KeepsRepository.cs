@@ -69,11 +69,12 @@ namespace Final.Repositories
         {
             string sql = @"
             SELECT 
-            a.*,
-            k.*
+            k.*,
+            a.*
             FROM keeps k
-            JOIN accounts a ON a.id = k.creatorId
-            WHERE k.creatorId = @id";
+            JOIN accounts a ON k.creatorId = a.id
+            WHERE creatorId = @id";
+            
 
             return _db.Query<Profile, Keep, Keep>(sql, (prof, keep)=>
             {

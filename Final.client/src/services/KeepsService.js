@@ -6,6 +6,13 @@ import { api } from "./AxiosService.js";
 
 class KeepsService{
 
+    async getKeepsByUserId(id){
+   
+            const res = await api.get(`api/profiles/${id}/keeps`)
+            logger.log('[getKeepsByUserId]',res.data);
+            AppState.profileKeeps = res.data;
+
+    }
     async createKeep(body){
         try{
             const res = await api.post('api/keeps',body);
@@ -15,20 +22,14 @@ class KeepsService{
         }
     }
 
-    async getKeeps(query = ''){
+    async getKeeps(){
         try{
-            const res = await api.get('api/keeps'+query);
+            const res = await api.get('api/keeps');
             logger.log('[getKeeps]',res.data);
             AppState.keeps=res.data;
         }catch(error){
             logger.error(error);
         }
-    }
-    async getKeepsByProfile(id){
-   
-            const res = await api.get(`api/profiles/${id}/keeps`);
-            AppState.profileKeeps = res.data;
-
     }
 
     async getKeep(id){
@@ -64,6 +65,15 @@ class KeepsService{
         AppState.activeKeep=keep;
         const res = await api.get(`api/keeps/${keep.id}`);
         AppState.activeKeep=res.data;
+    }
+    async addToVault(keepId,vaultId){
+        try{
+            const res = await api.post(`api/vaults/${vaultId}/keeps`,{keepId});
+            logger.log('Keep added to vault',res.data);
+            AppState.vaultKeeps=res.data;
+        }catch(error){
+            logger.error(error);
+        }
     }
 
 }
