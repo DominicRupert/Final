@@ -20,7 +20,7 @@
    
     </div>
     <div>
-      <!-- <button @click="newVault">NEW VAULT</button> -->
+      <button @click="newVault">NEW VAULT</button>
     </div>
    
 </template>
@@ -67,18 +67,18 @@ export default {
       profile: computed(() => AppState.profile),
 
       keeps: computed(() => AppState.profileKeeps),
-      // keeps: computed(() => AppState.keeps),
-      // account: computed(() => AppState.account),
-      // async newVault(){
-      //   try{
-      //     AppState.vaults = props.vaults
-      //     await vaultsService.getVaults()
-      //     Modal.getOrCreateInstance(document.getElementById("vault-modal")).show()
+      keeps: computed(() => AppState.keeps),
+      account: computed(() => AppState.account),
+      async newVault(){
+        try{
+          AppState.vaults = props.vaults
+          await vaultsService.getVaults()
+          Modal.getOrCreateInstance(document.getElementById("vault-modal")).show()
 
-      //   }catch(e){
-      //     logger.error(e)
-      //   }
-      // }
+        }catch(e){
+          logger.error(e)
+        }
+      }
 
     };
   },

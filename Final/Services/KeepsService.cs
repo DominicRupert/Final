@@ -86,6 +86,11 @@ namespace Final.Services
             return _repo.GetKeepsByVaultId(id);
         }
 
+        internal List<Keep> GetMyKeeps(string id)
+        {
+            return _repo.GetMyKeeps(id);
+        }
+
         // internal List<VaultKeepModel> GetByVaultId(int id)
         // {
         //     return _repo.GetByVaultId(id);

@@ -95,6 +95,22 @@ namespace Final.Repositories
         
         }
 
+        internal List<Keep> GetMyKeeps(string id)
+        {
+            string sql = @"
+            SELECT 
+            k.*,
+            a.*
+            FROM keeps k
+            JOIN accounts a ON k.creatorId = a.id
+            WHERE creatorId = @id";
+            return _db.Query<Account, Keep, Keep>(sql, (a, keep)=>
+            {
+                keep.Creator = a;
+                return keep;
+            }).ToList();
+        }
+
         internal List<Keep> GetKeepsByVaultId(int id)
         {
             string sql = @"

@@ -25,11 +25,11 @@ class KeepsService{
             logger.error(error);
         }
     }
-    async getKeepsByUserId(profile){
+    async getKeepsByUserId(id){
         // await profilesService.getProfile()
 
    
-        const res = await api.get(`api/profiles/${profile.id}/keeps`)
+        const res = await api.get(`api/profiles/${id}/keeps`)
         logger.log('[getKeepsByUserId]',res.data);
         AppState.profileKeeps = res.data;
 

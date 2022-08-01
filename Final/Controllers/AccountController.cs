@@ -58,6 +58,21 @@ namespace Final.Controllers
                 return BadRequest(e.Message);
             }
         }
+        [HttpGet("keeps")]
+        [Authorize]
+        public async Task<ActionResult<List<Keep>>> GetAccountKeeps()
+        {
+            try
+            {
+                Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+                List<Keep> keeps = _keepsService.GetMyKeeps(userInfo.Id);
+                return Ok(keeps);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
     }
 
 

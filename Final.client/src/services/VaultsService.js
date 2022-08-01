@@ -10,6 +10,11 @@ class VaultsService{
         const res = await api.get(`api/vaults/${id}`);
         AppState.activeVault = res.data;
     }
+    async getVaultsByUserId(id){
+        const res = await api.get(`api/profiles/${id}/vaults`);
+        AppState.vaults = res.data;
+    }
+
     async getVaultKeeps(id){
         const res = await api.get(`api/vaults/${id}/keeps`);
         AppState.vaultKeeps = res.data;
