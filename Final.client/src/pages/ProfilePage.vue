@@ -3,20 +3,26 @@
     <div class="row">
       <div class="col-md-12">
         <h1>Profile Page</h1>
-        <img :src="profile.picture" alt="" />
-        <h2>{{ profile.name }}</h2>
+        <h2>{{profile.name}}</h2>
       </div>
     </div>
-  </div>
-
-  <div class="masonry-container">
-    <div v-for="k in keeps" :key="k.id">
-      <Keep :keep="k" />
     </div>
-  </div>
-  <div>
-    <!-- <button @click="newVault">NEW VAULT</button> -->
-  </div>
+
+  <div class="masonry-container ">
+    
+    
+   
+
+      <div v-for="k in keeps" :key="k.id" >
+        <Keep :keep="k" />
+    </div>
+  
+   
+    </div>
+    <div>
+      <!-- <button @click="newVault">NEW VAULT</button> -->
+    </div>
+   
 </template>
 
 
@@ -24,7 +30,6 @@
 import { computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { AppState } from '../AppState.js'
-import { useRouter } from 'vue-router'
 import { profilesService } from '../services/ProfilesService.js'
 import { logger } from '../utils/Logger.js'
 import { keepsService } from '../services/KeepsService.js'
@@ -47,25 +52,21 @@ export default {
   setup() {
     const route = useRoute();
     onMounted(async () => {
-      await keepsService.getKeepsByUserId(route.params.id)
-      await vaultsService.getVaultsByUserId(route.params.id)
+      try {
+        await profilesService.getProfile(route.params.id);
+        // await keepsService.getKeepsByUserId(route.params.id);
 
-      await profilesService.getProfile(route.params.id);
-      // await keepsService.getKeepsByUserId(route.params.id);
-
-
+      }
+      catch (error) {
+        logger.error(error);
+        Pop.toast(error.message);
+      }
     });
     return {
       // route,
       profile: computed(() => AppState.profile),
-      activeKeep: computed(() => AppState.activeKeep),
-      keeps: computed(() => AppState.keeps),
-      vaults: computed(() => AppState.vaults),
 
-
-      pkeeps: computed(() => AppState.profileKeeps),
-      pvaults: computed(() => AppState.profileVaults),
-
+      keeps: computed(() => AppState.profileKeeps),
       // keeps: computed(() => AppState.keeps),
       // account: computed(() => AppState.account),
       // async newVault(){

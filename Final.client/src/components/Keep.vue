@@ -1,27 +1,20 @@
 <template>
-  <div
-    class="selectable"
-    @click="setActive"
-    data-bs-target="#keep-modal"
-    data-bs-toggle="modal"
-  >
-    <div>
-      <p>{{ keep.creator.name }}</p>
-    </div>
+    <div class="selectable" @click="setActive" data-bs-target="#keep-modal" data-bs-toggle="modal">
+<div>
+    <p> {{keep.creator.name}}</p>
+</div>
     <div class="card bg-dark">
-      <h3 class="">{{ keep.name }}</h3>
+        <h3 class="">{{keep.name}}</h3>
+
+
     </div>
     <div>
-      <img :src="keep.img" class="img-fluid" alt="" />
+        <img :src="keep.img" class="img-fluid" alt="">
     </div>
-    <div class="bg-dark"></div>
-  </div>
-  <img
-    @click="goToProfile"
-    :src="keep.creator.picture"
-    class="pfp img-fluid p-0 rounded-pill selectable"
-    alt=""
-  />
+    <div class=" bg-dark">
+    </div>
+    </div>
+        <img @click="goToProfile" :src="keep.creator.picture " class="pfp img-fluid p-0 rounded-pill selectable" alt="">
 </template>
 
 
@@ -34,52 +27,48 @@ import { logger } from '../utils/Logger.js'
 import { keepsService } from '../services/KeepsService.js'
 import { profilesService } from '../services/ProfilesService.js'
 import { accountService } from '../services/AccountService.js'
-import { vaultsService } from '../services/VaultsService.js'
 export default {
-  props: {
-    keep: {
-      type: Object,
-      required: true
-    }
-  },
-  setup(props) {
-    const router = useRouter()
-    return {
-      async goToProfile() {
-        await router.push({ name: 'Profile', params: { id: props.keep.creatorId } })
-      },
-      async setActive() {
-        try{
-        AppState.activeKeep = props.keep;
-        AppState.activeKeep.views++;
-        await keepsService.getKeepById(AppState.activeKeep)
-        Modal.getOrCreateInstance('#keep-modal').toggle()
-        await vaultsService.getVaultsByUserId(AppState.activeKeep.creatorId)
+    props: {
+        keep: {
+            type: Object,
+            required: true
         }
-        catch(error){
-          logger.error(error)
-          Pop.toast(error.message)
+    },
+    setup(props){
+        const router = useRouter()
+        return {
+            async goToProfile(){
+                await router.push({name: 'Profile', params: {id: props.keep.creatorId}})
+            },
+            
+            async setActive(){
+               try{
+                     await keepsService.setActive(props.keep)
+                  
+                     
+                     
+                // keepsService.setActive(props.keep)
+                
+               }catch (error){
+                logger.error(error)
+               }
+            },
+            keeps: computed(()=>AppState.keeps),
+            account: computed(()=>AppState.account),
+            vaults: computed(()=>AppState.vaults),
         }
-
-
-      },
-
-   
-      
-      keeps: computed(() => AppState.keeps),
-      account: computed(() => AppState.account),
-      vaults: computed(() => AppState.vaults),
     }
-  }
 }
 </script>
 
 
 <style lang="scss" scoped>
-.pfp {
-  position: relative;
-  top: -100px;
-  left: 50px;
-  width: 75px;
+.pfp{
+    position: relative;
+    top: -100px;
+    left: 50px;
+    width: 75px;
 }
+
+
 </style>

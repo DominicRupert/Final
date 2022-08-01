@@ -5,8 +5,8 @@
         <div class="container">
             <div class="col-md-6">
                 <h3>{{keep.name}}</h3>
-                <!-- <p>{{keep.description}}</p> -->
-                <img :src="keep.img" class="img-fluid" alt="">
+                <p>{{keep.description}}</p>
+                <!-- <img :src="keep.img" class="img-fluid" alt=""> -->
                 <!-- <p @click="goToProfile">{{keep.name}}</p> -->
                 <img :src="keep.img" class="img-fluid py-2" alt="">
                 <button  class="btn btn-dark"> <h3>Add To Vault</h3></button>
@@ -25,28 +25,21 @@ import { computed, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { logger } from '../utils/Logger.js'
 import { keepsService } from '../services/KeepsService.js'
-import Pop from '../utils/Pop.js'
 
 export default {
  
     setup(){
-        const editable = ref({keepId: AppState.activeKeep.id})
         const router = useRouter()
         return {
-            editable,
             account: computed(()=>AppState.account),
-            activeKeep: computed(()=>AppState.activeKeep),
-
 
             keep: computed(()=>AppState.keeps),
             vaults: computed(()=>AppState.vaults),
             user: computed(()=>AppState.user),
 
-            async newVaultKeep(){
+            async addToVault(){
                 try{
-                    editable.vaultId = vault.id
-                    const vaultKeep = await vaultKeepsService.createVaultKeep(editable)
-                    Pop.toast('Keep Added To Vault')
+                    await keepsService.addToVault(this.keep)
                 }catch(e){
                     logger.error(e)
                     Pop.toast(e.message)

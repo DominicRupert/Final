@@ -49,10 +49,8 @@ namespace Final.Services
                 throw new Exception("You can only edit keeps that you created.");
             }
             original.Name = keepData.Name ?? original.Name;
-            original.Kept = keepData.Kept;
-            original.Img = keepData.Img ?? original.Img;
-            original.Views = keepData.Views;
             original.Description = keepData.Description ?? original.Description;
+            original.Img = keepData.Img ?? original.Img;
 
             _repo.Edit(original);
             return original;

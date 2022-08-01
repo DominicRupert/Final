@@ -35,22 +35,27 @@ class KeepsService{
 
 
     }
-    async getKeepsByVaultId(id){
-        const res = await api.get(`api/vaults/${id}/keeps`)
-        logger.log('[getKeepsByVaultId]',res.data);
-        AppState.keeps = res.data;
-    }
 
-    async getKeepById(keep){
+
+    async getKeep(id){
         try{
-            const res = await api.get('api/keeps/'+keep.id);
-            logger.log('[activeKeep]',res.data);
+            const res = await api.get('api/keeps/'+id);
+            logger.log('[getKeep]',res.data);
             AppState.activeKeep=res.data;
         }catch(error){
             logger.error(error);
         }
     }
 
+    async updateKeep(body){
+        try{
+            const res = await api.put('api/keeps/'+body.id,body);
+            logger.log('Keep updated',res.data);
+            AppState.keeps=res.data;
+        }catch(error){
+            logger.error(error);
+        }
+    }
     async deleteKeep(keepId){
         try{
             const res = await api.delete('api/keeps/'+keepId);

@@ -37,9 +37,6 @@ namespace Final.Repositories
         internal Keep Get(int id)
         {
                string sql = @"
-               update keeps k
-                set views = views + 1
-                where k.id = @id
             SELECT 
             a.*,
             k.*
