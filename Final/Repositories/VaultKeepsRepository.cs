@@ -57,7 +57,7 @@ namespace Final.Repositories
         JOIN keeps k ON vk.keepId = k.id
         JOIN accounts a ON k.creatorId = a.id 
         WHERE vk.vaultId = @vaultId";
-        return _db.Query<VaultKeepModel, Profile, VaultKeepModel>(sql, (vkkmv, a) =>
+        return _db.Query<VaultKeepModel, Account, VaultKeepModel>(sql, (vkkmv, a) =>
         {
             vkkmv.Creator = a;
            

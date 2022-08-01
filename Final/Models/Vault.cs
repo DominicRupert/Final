@@ -2,10 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Final.Interfaces;
 
 namespace Final.Models
 {
-    public class Vault
+    public class Vault : IRepoItem <int>
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -15,7 +16,7 @@ namespace Final.Models
         public bool IsPrivate { get; set; }
 
 
-        public Profile Creator { get; set; }
+        public Account Creator { get; set; }
         
     }
 }

@@ -42,19 +42,19 @@ import { Modal } from 'bootstrap'
 
 
 export default {
-  // props: {
-  //   vault: {
-  //     type: Object,
-  //     required: true
-  //   }
-  // },
+  props: {
+    vault: {
+      type: Object,
+      required: true
+    }
+  },
   name: 'Profile',
   setup() {
     const route = useRoute();
     onMounted(async () => {
       try {
         await profilesService.getProfile(route.params.id);
-        // await keepsService.getKeepsByUserId(route.params.id);
+        await keepsService.getKeepsByUserId(route.params.id);
 
       }
       catch (error) {

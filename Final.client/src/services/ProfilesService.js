@@ -1,6 +1,7 @@
 import { AppState } from "../AppState.js";
 import { api } from "./AxiosService.js";
 import {keepsService} from "../services/KeepsService.js"
+import {vaultKeepsService} from "../services/VaultKeepsService.js"
 
 class ProfilesService{
     async getProfile(id){
@@ -8,6 +9,9 @@ class ProfilesService{
         
         AppState.profile = res.data;
         await keepsService.getKeepsByUserId(id);
+        // await vaultKeepsService.getVaultKeeps(id);
+
+
 
 
     }

@@ -15,7 +15,7 @@ namespace Final.Repositories
         {
             _db = db;
         }
-           internal Vault FindExisting(Vault newVault)
+        internal Vault FindExisting(Vault newVault)
         {
             string sql = "SELECT * FROM vaults WHERE vaultId = @VaultId AND creatorId = @CreatorId";
             return _db.Query<Vault>(sql, newVault).FirstOrDefault();
@@ -31,9 +31,9 @@ namespace Final.Repositories
             FROM vaults v
             JOIN accounts a ON a.id = v.creatorId";
 
-            return _db.Query<Profile, Vault, Vault>(sql, (prof, vault)=>
+            return _db.Query<Account, Vault, Vault>(sql, (a, vault) =>
             {
-                vault.Creator = prof;
+                vault.Creator = a;
                 return vault;
             }).ToList();
         }
@@ -47,14 +47,14 @@ namespace Final.Repositories
             JOIN accounts a ON a.id = v.creatorId
             WHERE v.id = @id";
 
-            return _db.Query<Profile, Vault, Vault>(sql, (prof, vault)=>
+            return _db.Query<Account, Vault, Vault>(sql, (a, vault) =>
             {
-                vault.Creator = prof;
+                vault.Creator = a;
                 return vault;
             }, new { id }).FirstOrDefault();
         }
 
-     
+
         internal Vault Create(Vault newVault)
         {
             string sql = @"
@@ -65,7 +65,7 @@ namespace Final.Repositories
             SELECT LAST_INSERT_ID()";
 
             newVault.Id = _db.ExecuteScalar<int>(sql, newVault);
-           
+
             return newVault;
         }
 
@@ -79,9 +79,9 @@ namespace Final.Repositories
             JOIN accounts a ON a.id = v.creatorId
             WHERE a.id = @id";
 
-            return _db.Query<Profile, Vault, Vault>(sql, (prof, vault)=>
+            return _db.Query<Account, Vault, Vault>(sql, (a, vault) =>
             {
-                vault.Creator = prof;
+                vault.Creator = a;
                 return vault;
             }).ToList();
         }
@@ -102,7 +102,7 @@ namespace Final.Repositories
             WHERE id = @id";
             _db.Execute(sql, new { id });
 
-    }
+        }
 
         internal List<VaultKeepModel> GetKeepsById(int id)
         {
@@ -114,12 +114,12 @@ namespace Final.Repositories
             JOIN keeps k ON k.vaultId = v.id
             JOIN accounts a ON a.id = v.creatorId
             WHERE k.creatorId = @id";
-            return _db.Query<Profile, VaultKeepModel, VaultKeepModel>(sql, (prof, vault)=>
+            return _db.Query<Account, VaultKeepModel, VaultKeepModel>(sql, (a, vault) =>
             {
-                vault.Creator = prof;
+                vault.Creator = a;
                 return vault;
-          
-           
+
+
             }, new { id }).ToList();
         }
     }

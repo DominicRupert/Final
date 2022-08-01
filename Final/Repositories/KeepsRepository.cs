@@ -27,9 +27,9 @@ namespace Final.Repositories
             FROM keeps k
             JOIN accounts a ON a.id = k.creatorId";
 
-            return _db.Query<Profile, Keep, Keep>(sql, (prof, keep)=>
+            return _db.Query<Account, Keep, Keep>(sql, (a, keep)=>
             {
-                keep.Creator = prof;
+                keep.Creator = a;
                 return keep;
             }).ToList();
         }
@@ -44,9 +44,9 @@ namespace Final.Repositories
             JOIN accounts a ON a.id = k.creatorId
             WHERE k.id = @id";
 
-            return _db.Query<Profile, Keep, Keep>(sql, (prof, keep)=>
+            return _db.Query<Account, Keep, Keep>(sql, (a, keep)=>
             {
-                keep.Creator = prof;
+                keep.Creator = a;
                 return keep;
             }, new { id }).FirstOrDefault();
         }
@@ -76,9 +76,9 @@ namespace Final.Repositories
             WHERE creatorId = @id";
             
 
-            return _db.Query<Profile, Keep, Keep>(sql, (prof, keep)=>
+            return _db.Query<Account, Keep, Keep>(sql, (a, keep)=>
             {
-                keep.Creator = prof;
+                keep.Creator = a;
                 return keep;
             }).ToList();
 
@@ -104,9 +104,9 @@ namespace Final.Repositories
             from keeps k
             join accounts a on k.creatorId = a.id
             where k.id = @id";
-            return _db.Query<Keep, Profile, Keep>(sql, (keep, prof)=>
+            return _db.Query<Keep, Account, Keep>(sql, (keep, a)=>
             {
-                keep.Creator = prof;
+                keep.Creator = a;
                 return keep;
             }).ToList();
         }
@@ -139,9 +139,9 @@ namespace Final.Repositories
             FROM vaults v
             JOIN accounts a ON a.id = v.creatorId
             WHERE a.id = @id";
-            return _db.Query<Vault, Profile, Vault>(sql, (vault, prof)=>
+            return _db.Query<Vault, Account, Vault>(sql, (vault, a)=>
             {
-                vault.Creator = prof;
+                vault.Creator = a;
                 return vault;
             }).ToList();
         }
