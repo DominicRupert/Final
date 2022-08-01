@@ -1,18 +1,13 @@
 import { AppState } from "../AppState.js";
 import { logger } from "../utils/logger.js";
 import { api } from "./AxiosService.js";
+import {profilesService} from "../services/ProfilesService.js"
 
 
 
 class KeepsService{
 
-    async getKeepsByUserId(id){
    
-            const res = await api.get(`api/profiles/${id}/keeps`)
-            logger.log('[getKeepsByUserId]',res.data);
-            AppState.profileKeeps = res.data;
-
-    }
     async createKeep(body){
         try{
             const res = await api.post('api/keeps',body);
@@ -21,7 +16,6 @@ class KeepsService{
             logger.error(error);
         }
     }
-
     async getKeeps(){
         try{
             const res = await api.get('api/keeps');
@@ -31,26 +25,32 @@ class KeepsService{
             logger.error(error);
         }
     }
+    async getKeepsByUserId(id){
+        // await profilesService.getProfile()
 
-    async getKeep(id){
+   
+        const res = await api.get(`api/profiles/${id}/keeps`)
+        logger.log('[getKeepsByUserId]',res.data);
+        AppState.profileKeeps = res.data;
+
+
+    }
+    async getKeepsByVaultId(id){
+        const res = await api.get(`api/vaults/${id}/keeps`)
+        logger.log('[getKeepsByVaultId]',res.data);
+        AppState.keeps = res.data;
+    }
+
+    async getKeepById(keep){
         try{
-            const res = await api.get('api/keeps/'+id);
-            logger.log('[getKeep]',res.data);
+            const res = await api.get('api/keeps/'+keep.id);
+            logger.log('[activeKeep]',res.data);
             AppState.activeKeep=res.data;
         }catch(error){
             logger.error(error);
         }
     }
 
-    async updateKeep(body){
-        try{
-            const res = await api.put('api/keeps/'+body.id,body);
-            logger.log('Keep updated',res.data);
-            AppState.keeps=res.data;
-        }catch(error){
-            logger.error(error);
-        }
-    }
     async deleteKeep(keepId){
         try{
             const res = await api.delete('api/keeps/'+keepId);

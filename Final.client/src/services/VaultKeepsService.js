@@ -1,20 +1,21 @@
 import { AppState } from "../AppState.js";
+import { logger } from "../utils/Logger.js";
 import { api } from "./AxiosService.js";
 
 class VaultKeepsService {
   async getVaultKeeps(id) {
     const res = await api.get(`api/vaults/${id}/keeps`);
-    AppState.vaultKeeps = res.data;
-
+AppState.activeKeep = res.data;
+logger.log(AppState.activeKeep);
 
   }
     async createVaultKeeps(vaultKeep) {
-        const res = await api.post(`api/vaults/${vaultKeep.vaultId}/keeps`, vaultKeep);
-        AppState.vaultKeeps.push(res.data);
+      vaultKeep.keepId = AppState.activeKeep.id;
+        const res = await api.post("api/vaultkeeps", vaultKeep);
+        AppState.profileKeeps.push(res.data);
     }
     async deleteVaultKeeps(vaultKeepId) {
         const res = await api.delete(`api/vaultkeeps/${vaultKeepId}`);
-        AppState.vaultKeeps = AppState.vaultKeeps.filter(vaultKeep => vaultKeep.id !== vaultKeepId);
     }
 
 }

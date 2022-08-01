@@ -1,19 +1,17 @@
 <template>
    <Modal id="keep-modal">
-   <template #modal-title>{{keep.name}}</template>
+   <!-- <template #modal-title>{{keep.name}}</template> -->
     <template #modal-body>
-        <div class="row">
-            <div class="col-md-6">
-                <img :src="keep.img" class="img-fluid py-2" alt="">
-                <button @click="addToVault" class="btn btn-dark"> <h3>Add To Vault</h3></button>
-            </div>
+        <div class="container">
             <div class="col-md-6">
                 <h3>{{keep.name}}</h3>
-                <p>{{keep.description}}</p>
-                <!-- <p>{{keep.creator.name}}</p> -->
-                <!-- <p>{{keep.createdAt}}</p>
-                <p>{{keep.updatedAt}}</p> -->
+                <!-- <p>{{keep.description}}</p> -->
+                <img :src="keep.img" class="img-fluid" alt="">
+                <!-- <p @click="goToProfile">{{keep.name}}</p> -->
+                <img :src="keep.img" class="img-fluid py-2" alt="">
+                <button  class="btn btn-dark"> <h3>Add To Vault</h3></button>
             </div>
+            
         </div>
     </template>
    
@@ -27,20 +25,36 @@ import { computed, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { logger } from '../utils/Logger.js'
 import { keepsService } from '../services/KeepsService.js'
+import Pop from '../utils/Pop.js'
 
 export default {
+ 
     setup(){
+        const editable = ref({keepId: AppState.activeKeep.id})
+        const router = useRouter()
         return {
+            editable,
+            account: computed(()=>AppState.account),
+            activeKeep: computed(()=>AppState.activeKeep),
+
+
             keep: computed(()=>AppState.keeps),
             vaults: computed(()=>AppState.vaults),
-            async addToVault(){
+            user: computed(()=>AppState.user),
+
+            async newVaultKeep(){
                 try{
-                    await keepsService.addToVault(this.keep)
+                    editable.vaultId = vault.id
+                    const vaultKeep = await vaultKeepsService.createVaultKeep(editable)
+                    Pop.toast('Keep Added To Vault')
                 }catch(e){
                     logger.error(e)
                     Pop.toast(e.message)
                 }
-            } 
+            } ,
+            goToProfile(){
+                router.push({name: 'Profile', params: {id: props.keep.creatorId}})
+            },
         }
     }
 }

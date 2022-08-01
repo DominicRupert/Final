@@ -17,10 +17,11 @@ import {computed, onMounted, ref} from 'vue'
 import {AppState} from '../AppState.js'
 import { logger } from '../utils/Logger.js'
 import { keepsService } from '../services/KeepsService.js'
+import { vaultsService } from '../services/VaultsService.js'
 import { useRoute } from 'vue-router'
 import  Pop  from '../utils/Pop.js'
 export default {
-  // name: 'Home',
+  name: 'Home',
   setup(){  onMounted(async ()=>{
     try{
       await keepsService.getKeeps()
@@ -30,9 +31,11 @@ export default {
 
 
     }
-  })
+  });
   return {
-    keeps: computed(()=>AppState.keeps)
+    keeps: computed(()=>AppState.keeps),
+    vaults: computed(()=>AppState.vaults),
+    account: computed(()=>AppState.account)
   }
   }
 }

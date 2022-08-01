@@ -3,26 +3,20 @@
     <div class="row">
       <div class="col-md-12">
         <h1>Profile Page</h1>
-        <h2>{{profile.name}}</h2>
+        <img :src="profile.picture" alt="" />
+        <h2>{{ profile.name }}</h2>
       </div>
     </div>
-    </div>
+  </div>
 
-  <div class="masonry-container ">
-    
-    
-   
-
-      <div v-for="k in keeps" :key="k.id" >
-        <Keep :keep="k" />
+  <div class="masonry-container">
+    <div v-for="k in keeps" :key="k.id">
+      <Keep :keep="k" />
     </div>
-  
-   
-    </div>
-    <div>
-      <!-- <button @click="newVault">NEW VAULT</button> -->
-    </div>
-   
+  </div>
+  <div>
+    <!-- <button @click="newVault">NEW VAULT</button> -->
+  </div>
 </template>
 
 
@@ -30,9 +24,10 @@
 import { computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { AppState } from '../AppState.js'
+import { useRouter } from 'vue-router'
 import { profilesService } from '../services/ProfilesService.js'
 import { logger } from '../utils/Logger.js'
-// import { keepsService } from '../services/KeepsService.js'
+import { keepsService } from '../services/KeepsService.js'
 
 import Pop from '../utils/Pop.js'
 import { vaultsService } from '../services/VaultsService.js'
@@ -42,31 +37,35 @@ import { Modal } from 'bootstrap'
 
 
 export default {
-  props: {
-    vault: {
-      type: Object,
-      required: true
-    }
-  },
+  // props: {
+  //   vault: {
+  //     type: Object,
+  //     required: true
+  //   }
+  // },
   name: 'Profile',
-  setup(props) {
+  setup() {
     const route = useRoute();
     onMounted(async () => {
-      try {
-        await profilesService.getProfile(route.params.id);
+      await keepsService.getKeepsByUserId(route.params.id)
+      await vaultsService.getVaultsByUserId(route.params.id)
 
-        // await keepsService.getKeepsByProfile(route.params.id);
-      }
-      catch (error) {
-        logger.error(error);
-        Pop.toast(error.message);
-      }
+      await profilesService.getProfile(route.params.id);
+      // await keepsService.getKeepsByUserId(route.params.id);
+
+
     });
     return {
       // route,
       profile: computed(() => AppState.profile),
+      activeKeep: computed(() => AppState.activeKeep),
+      keeps: computed(() => AppState.keeps),
+      vaults: computed(() => AppState.vaults),
 
-      keeps: computed(() => AppState.profileKeeps),
+
+      pkeeps: computed(() => AppState.profileKeeps),
+      pvaults: computed(() => AppState.profileVaults),
+
       // keeps: computed(() => AppState.keeps),
       // account: computed(() => AppState.account),
       // async newVault(){
