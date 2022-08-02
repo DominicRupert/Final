@@ -1,5 +1,10 @@
 <template>
-  <div class="component"></div>
+  <div class="component">
+    
+
+
+
+  </div>
   
 </template>
 

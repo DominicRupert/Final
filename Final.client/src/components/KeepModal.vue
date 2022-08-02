@@ -3,56 +3,79 @@
     <template #modal-title>{{ keep.name }}</template>
     <template #modal-body>
       <div class="container-fluid">
+        <h1>{{keep.name}}</h1>
         <div class="row">
-          <div class="col-md-6">
-            
-            <!-- <h3>{{ keep.name }}</h3> -->
-          <!-- <p>{{ keep.description }}</p> -->
           <img :src="keep.img" class="img-fluid" :alt="keep.img" />
-          <!-- <p @click="goToProfile">{{ keep.name }}</p> -->
-          <!-- <img :src="keep.img" class="img-fluid py-2" alt="" /> -->
-          <!-- <button class="btn btn-dark"><h3>Add To Vault</h3></button> -->
-        </div>
+          <h1>hello</h1>
+
+            <!-- <h3>{{ keep.name }}</h3> -->
+            <!-- <p>{{ keep.description }}</p> -->
+            <!-- <img :src="keep.img" class="img-fluid py-2" alt="" /> -->
+            <button class="btn btn-dark"><h3>Add To Vault</h3></button>
           </div>
-      </div>
+        </div>
+            <img
+    @click="goToProfile"
+    :src="keep.creator?.picture"
+    class="pfp img-fluid p-0 rounded-pill selectable"
+    alt=""
+  />
     </template>
   </Modal>
 </template>
 
 
 <script>
+import { computed, onMounted, reactive } from 'vue'
+import { Modal } from 'bootstrap'
 import { AppState } from '../AppState.js'
 import { keepsService } from '../services/KeepsService.js'
-import { computed, onMounted, reactive } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { logger } from '../utils/Logger.js'
 
 export default {
+  props: {
+    keep: {
+      type: Object,
+      required: true
+    }
+  },
 
-  setup() { 
+  setup(props) {
     const router = useRouter()
-    const route = useRoute()
+    // const route = useRoute()
     return {
+      async setActive() {
+        try {
+          await keepsService.setActive(props.keep)
+        } catch (error) {
+          logger.error(error)
+        }
+      },
+      // activeKeep,
+      // keep: reactive(route.params.keep),
       keep: computed(() => AppState.keeps),
-        activeKeep: computed(() => AppState.activeKeep),
-        activeVault: computed(() => AppState.activeVault),
+      keep: computed(() => AppState.activeKeep),
+      vault: computed(() => AppState.activeVault),
+      profile: computed(() => AppState.profile),
 
       account: computed(() => AppState.account),
 
-      vaults: computed(() => AppState.vaults),
-      user: computed(() => AppState.user),
+      vault: computed(() => AppState.vaults),
+      
 
       async addToVault(vault) {
         try {
-            editableKeep.vaultId = vault.id
-            logger.log(editableKeep)            
-          await keepsService.addToVault(this.keep)
+          editableKeep.vaultId = vault.id
+          logger.log(editableKeep)
+          await keepsService.addToVault(keep.id)
         } catch (e) {
           logger.error(e)
           Pop.toast(e.message)
         }
       },
-      goToProfile() {
+         goToProfile() {
+        Modal.getOrCreateInstance(document.getElementById("keep-modal")).hide()
         router.push({ name: 'Profile', params: { id: props.keep.creatorId } })
       },
     }
@@ -62,4 +85,10 @@ export default {
 
 
 <style lang="scss" scoped>
+.pfp {
+  position: relative;
+  top: -100px;
+  left: 50px;
+  width: 75px;
+}
 </style>

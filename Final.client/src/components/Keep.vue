@@ -45,17 +45,6 @@ export default {
   setup(props) {
     const router = useRouter()
     return {
-      keeps: computed(() => AppState.keeps),
-      account: computed(() => AppState.account),
-      vaults: computed(() => AppState.vaults),
-      profile: computed(() => AppState.profile),
-      pkeeps: computed(() => AppState.profileKeeps),
-      akeeps: computed(() => AppState.accountKeeps),
-      goToProfile() {
-        Modal.getOrCreateInstance(document.getElementById("keep-modal")).hide()
-        router.push({ name: 'Profile', params: { id: props.keep.creatorId } })
-      },
-
       async setActive() {
         try {
           await keepsService.setActive(props.keep)
@@ -68,6 +57,17 @@ export default {
           logger.error(error)
         }
       },
+      keeps: computed(() => AppState.keeps),
+      account: computed(() => AppState.account),
+      vaults: computed(() => AppState.vaults),
+      profile: computed(() => AppState.profile),
+      pkeeps: computed(() => AppState.profileKeeps),
+      // akeeps: computed(() => AppState.accountKeeps),
+      goToProfile() {
+        Modal.getOrCreateInstance(document.getElementById("keep-modal")).hide()
+        router.push({ name: 'Profile', params: { id: props.keep.creatorId } })
+      },
+
 
 
 

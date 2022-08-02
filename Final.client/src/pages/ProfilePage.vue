@@ -1,19 +1,23 @@
 <template>
   <div class="masonry-container">
-    <!-- <div class="row"> -->
-    <div class="col">
-      <h1>Profile Page</h1>
-      <div v-for="v in vaults"  :key="v.id">
-      <Vault :vault="v" />
+    <div class="row">
+
+      <div class="col">
+            <KeepModal />
+
+        <h1>Profile Page</h1>
+        <h2>{{ profile.name }}</h2>
+        <button @click="createVaults">new vault</button>
+        <div v-for="v in vaults" :key="v.id">
+          <Vault :vault="v" />
+        </div>
+        <img :src="profile.picture" class="img-fluid" alt="" />
+        <!-- <p>{{ profile.description }}</p> -->
+        <div v-for="k in keeps" :key="k.id" class=" p-3 ">
+          <Keep :keep="k" />
+        </div>
       </div>
-      <!-- <h2>{{ profile.name }}</h2> -->
-      <img :src="profile.picture" class="img-fluid" alt="" />
-      <!-- <p>{{ profile.description }}</p> -->
-      <div v-for="k in keeps" :key="k.id" class=" p-3 ">
-        <Keep :keep="k" />
     </div>
-    </div>
-    <!-- </div> -->
   </div>
 </template>
 
@@ -28,6 +32,7 @@ import { vaultsService } from '../services/VaultsService.js'
 import { vaultKeepsService } from '../services/VaultKeepsService.js'
 import { accountService } from '../services/AccountService.js'
 import { logger } from '../utils/Logger.js'
+import { Modal } from 'bootstrap'
 
 import Pop from '../utils/Pop.js'
 // import Keep from '../components/Keep.vue'
@@ -36,14 +41,20 @@ import Pop from '../utils/Pop.js'
 
 export default {
   name: 'Profile',
-  setup() {
-    watchEffect(() => {
-        AppState.account;
-        AppState.keeps;
-    });
-      const route = useRoute();
+  props: {
+    keep: {
+      type: Object,
+      required: true
+    }
+  },
+  setup(props) {
+
+    const route = useRoute();
     onMounted(async () => {
       try {
+        
+        // await keepsService.getKeeps()
+        // await keepsService.setActive(props.keep)
 
 
         await profilesService.getProfile(route.params.id);
@@ -56,11 +67,29 @@ export default {
         logger.error(error);
         Pop.toast(error.message);
       }
-    });
+      
+    })
     return {
+      async createVaults() {
+        try {
+          const vault = await vaultsService.createVaults({
+            name: 'New Vault',
+            description: 'New Vault',
+
+            userId: AppState.profile.id
+            
+          });
+          Pop.toast("Vault created");
+        } catch (error) {
+          logger.error(error);
+          Pop.toast(error.message);
+        }
+      },
+          
+     
       route,
       profile: computed(() => AppState.profile),
-      // keeps: computed(() => AppState.keeps),
+      keeps: computed(() => AppState.keeps),
       // vaults: computed(() => AppState.vaults),
       keeps: computed(() => AppState.profileKeeps),
       vaults: computed(() => AppState.profileVaults),

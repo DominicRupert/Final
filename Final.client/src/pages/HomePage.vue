@@ -3,12 +3,14 @@
 
 
   <div class="container masonry-with-columns ">
+    <KeepModal />
     <div v-for="k in keeps" :key="k.id" class=" p-3 ">
         <Keep :keep="k" />
     </div>
   
    
     </div>
+
  
 </template>
 

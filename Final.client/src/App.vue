@@ -4,7 +4,7 @@
   </header>
   <main>
     <router-view />
-    <KeepModal />
+    
   </main>
   <footer>
 
