@@ -3,11 +3,15 @@
     <!-- <div class="row"> -->
     <div class="col">
       <h1>Profile Page</h1>
-      <Vault v-for="v in vaults" :vault="v" :key="v.id" />
+      <div v-for="v in vaults"  :key="v.id">
+      <Vault :vault="v" />
+      </div>
       <!-- <h2>{{ profile.name }}</h2> -->
       <img :src="profile.picture" class="img-fluid" alt="" />
       <!-- <p>{{ profile.description }}</p> -->
-      <Keep v-for="k in keeps" :keep="k" :key="k.id" />
+      <div v-for="k in keeps" :key="k.id" class=" p-3 ">
+        <Keep :keep="k" />
+    </div>
     </div>
     <!-- </div> -->
   </div>
@@ -44,7 +48,7 @@ export default {
 
         await profilesService.getProfile(route.params.id);
         await keepsService.getKeepsByUserId(route.params.id);
-        // await vaultsService.getVaultsByUserId(route.params.id);
+        await vaultsService.getVaultsByUserId(route.params.id);
         // await vaultKeepsService.getVaultKeeps(route.params.id);
         // await keepsService.getKeepsByUserId(route.params.id);
       }
@@ -56,10 +60,10 @@ export default {
     return {
       route,
       profile: computed(() => AppState.profile),
-      keeps: computed(() => AppState.keeps),
+      // keeps: computed(() => AppState.keeps),
       // vaults: computed(() => AppState.vaults),
-      // keeps: computed(() => AppState.profileKeeps),
-      // vaults: computed(() => AppState.profileVaults),
+      keeps: computed(() => AppState.profileKeeps),
+      vaults: computed(() => AppState.profileVaults),
       // vaultKeeps: computed(() => AppState.vaultKeeps),
 
     };

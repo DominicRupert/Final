@@ -76,10 +76,10 @@ namespace Final.Repositories
             v.*,
             a.*
             FROM vaults v
-            JOIN accounts a ON a.id = v.creatorId
-            WHERE a.id = @id";
+            JOIN accounts a ON v.creatorId = a.id
+            WHERE v.creatorId = @creatorId";
 
-            return _db.Query<Account, Vault, Vault>(sql, (a, vault) =>
+            return _db.Query<Vault, Account, Vault>(sql, (vault, a) =>
             {
                 vault.Creator = a;
                 return vault;

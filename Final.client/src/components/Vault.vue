@@ -26,7 +26,8 @@ export default {
             account: computed(() => AppState.account),
             profile: computed(() => AppState.profile),
             pvaults: computed(() => AppState.profileVaults),
-            
+            pkeeps: computed(() => AppState.profileKeeps),
+
             // avaults: computed(() => AppState.),
        
         }
