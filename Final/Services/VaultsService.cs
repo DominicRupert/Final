@@ -29,7 +29,6 @@ namespace Final.Services
         internal List<Vault> Get(string userId)
         {
             List<Vault> vaults = _repo.Get();
-            return vaults.FindAll(v => v.IsPrivate == false || v.CreatorId == userId);
             return vaults;
         }
 
@@ -95,6 +94,14 @@ namespace Final.Services
 
             _repo.Delete(id);
         }
+
+        internal List<Vault> GetMyVaults(string userId)
+        {
+            return _repo.GetMyVaults(userId);
+          
+        }
+
+
 
     }
 }

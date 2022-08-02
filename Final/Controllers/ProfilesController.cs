@@ -60,26 +60,13 @@ namespace Final.Controllers
         }
 
         [HttpGet("{id}/vaults")]
-        public async Task<ActionResult<List<Vault>>> getVaults(string id)
+        public ActionResult<List<Vault>> GetVaultsByUserId(string id)
         {
             try
             {
                 List<Vault> vaults = _vs.GetVaultsByUserId(id);
-                Account account = await HttpContext.GetUserInfoAsync<Account>();
-                List <Vault> privVaults = vaults.Where((vault) =>
-                {
-                    if(account != null)
-                    {
-                        if(vault.CreatorId == account.Id)
-                        {
-                            return true;
-                        }
-                        return !vault.IsPrivate;
-                    }
-                    return !vault.IsPrivate;
-                }
-                ).ToList<Vault>();
-                return Ok(privVaults);
+                return Ok(vaults);
+              
                 
             }
             catch (Exception e)

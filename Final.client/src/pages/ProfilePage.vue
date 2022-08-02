@@ -7,7 +7,7 @@
 
         <h1>Profile Page</h1>
         <h2>{{ profile.name }}</h2>
-        <button @click="createVaults">new vault</button>
+        <button v-if="activeProfile.id==account.id" @click="createVaults">new vault</button>
         <div v-for="v in vaults" :key="v.id">
           <Vault :vault="v" />
         </div>
@@ -75,8 +75,9 @@ export default {
           const vault = await vaultsService.createVaults({
             name: 'New Vault',
             description: 'New Vault',
-
-            userId: AppState.profile.id
+            userId: AppState.activeProfile
+          
+            
             
           });
           Pop.toast("Vault created");
@@ -88,11 +89,14 @@ export default {
           
      
       route,
+      activeProfile: computed(() => AppState.activeProfile),
       profile: computed(() => AppState.profile),
-      keeps: computed(() => AppState.keeps),
+      account: computed(() => AppState.account),
+      // keeps: computed(() => AppState.keeps),
       // vaults: computed(() => AppState.vaults),
       keeps: computed(() => AppState.profileKeeps),
       vaults: computed(() => AppState.profileVaults),
+      user: computed(() => AppState.user),
       // vaultKeeps: computed(() => AppState.vaultKeeps),
 
     };

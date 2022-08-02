@@ -87,7 +87,7 @@ namespace Final.Repositories
             {
                 vault.Creator = a;
                 return vault;
-            },new {creatorId} ).ToList();
+            },new {creatorId} ).ToList<Vault>();
         }
 
         internal void Edit(Vault original)
@@ -124,6 +124,22 @@ namespace Final.Repositories
                 return vault;
 
 
+            }, new { id }).ToList();
+        }
+
+        internal List<Vault> GetMyVaults(string id)
+        {
+            string sql = @"
+            SELECT 
+            v.*,
+            a.*
+            FROM vaults v
+            JOIN accounts a ON v.creatorId = a.id
+            WHERE v.creatorId = @id";
+            return _db.Query<Vault, Account, Vault>(sql, (vault, a) =>
+            {
+                vault.Creator = a;
+                return vault;
             }, new { id }).ToList();
         }
     }

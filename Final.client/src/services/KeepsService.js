@@ -22,7 +22,6 @@ class KeepsService {
     }
   }
   async getKeepsByUserId(id) {
-    // await profilesService.getProfile()
 
     const res = await api.get(`api/profiles/${id}/keeps`);
     logger.log("[getKeepsByUserId]", res.data);

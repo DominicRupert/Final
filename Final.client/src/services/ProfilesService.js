@@ -9,7 +9,7 @@ class ProfilesService{
         logger.log("[getProfile]", res.data);
         
         // await keepsService.getKeepsByUserId(id);
-        AppState.profile = res.data;
+        AppState.activeProfile = res.data;
 
 
     }

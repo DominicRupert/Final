@@ -1,9 +1,8 @@
 <template>
   <Modal id="keep-modal">
-    <template #modal-title>{{ keep.name }}</template>
+    <template #modal-title>{{ keep.name }} by: {{keep.creator?.name}} </template>
     <template #modal-body>
       <div class="container-fluid">
-        <h1>{{keep.name}}</h1>
         <div class="row">
           <img :src="keep.img" class="img-fluid" :alt="keep.img" />
           <h1>hello</h1>
@@ -11,7 +10,16 @@
             <!-- <h3>{{ keep.name }}</h3> -->
             <!-- <p>{{ keep.description }}</p> -->
             <!-- <img :src="keep.img" class="img-fluid py-2" alt="" /> -->
-            <button class="btn btn-dark"><h3>Add To Vault</h3></button>
+            <div class="dropdown">
+  <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Add to Vault
+  </button>
+  <ul class="dropdown-menu">
+    <li><a class="dropdown-item" href="#">Action</a></li>
+    <li><a class="dropdown-item" href="#">Another action</a></li>
+    <li><a class="dropdown-item" href="#">Something else here</a></li>
+  </ul>
+</div>
           </div>
         </div>
             <img
@@ -87,8 +95,8 @@ export default {
 <style lang="scss" scoped>
 .pfp {
   position: relative;
-  top: -100px;
-  left: 50px;
+  top: -50px;
+  left: 250px;
   width: 75px;
 }
 </style>
