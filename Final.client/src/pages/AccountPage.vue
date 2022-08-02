@@ -42,7 +42,10 @@ export default {
     return {
       account: computed(() => AppState.account),
       keeps: computed(() => AppState.keeps),
+
       vaults: computed(() => AppState.vaults),
+      akeeps: computed(() => AppState.accountKeeps),
+      avaults: computed(() => AppState.accountVaults),
 
     }
   }

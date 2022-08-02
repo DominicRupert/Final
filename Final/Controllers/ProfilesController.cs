@@ -45,12 +45,12 @@ namespace Final.Controllers
             }
         }
         [HttpGet("{id}/keeps")]
-        public ActionResult<List<Keep>> getKeepsById(string id)
+        public ActionResult<List<Keep>> getKeeps(string id)
         {
             try
             {
-                _as.GetByProfileId(id);
-                List<Keep> keeps = _ks.GetKeepsByUserId(id);
+                // _as.GetByProfileId(id);
+                List<Keep> keeps = _ks.GetByCreatorId(id);
                 return Ok(keeps);
             }
             catch (Exception e)

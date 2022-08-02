@@ -1,6 +1,6 @@
 
 <template>
-<div class="home">
+
 
   <div class="container masonry-with-columns ">
     <div v-for="k in keeps" :key="k.id" class=" p-3 ">
@@ -9,7 +9,7 @@
   
    
     </div>
-    </div>
+ 
 </template>
 
 <script>

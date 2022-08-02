@@ -56,9 +56,9 @@ namespace Final.Services
             return original;
         }
 
-        internal List<Keep> GetKeepsByUserId(string id)
+        internal List<Keep> GetByCreatorId(string id)
         {
-            return _repo.GetKeepsByUserId(id);
+            return _repo.GetByCreatorId(id);
          
         
             }

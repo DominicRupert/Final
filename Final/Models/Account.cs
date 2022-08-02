@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using Final.Interfaces;
 
 namespace Final.Models
+
 {
-    public class Profile
+    public class Profile : IRepoItem<string>
     {
         public string Id { get; set; }
         public string Name { get; set; }
