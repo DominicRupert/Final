@@ -28,12 +28,12 @@ namespace Final.Controllers
       
      
         [HttpGet]
-        public  ActionResult<List<Vault>> Get()
+        public  ActionResult<List<Vault>> Get(string userId)
         {
             try
             {
                 // Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
-                List<Vault> vaults = _vs.Get();
+                List<Vault> vaults = _vs.Get(userId);
                 return Ok(vaults);
             }
             catch (Exception e)
@@ -43,7 +43,7 @@ namespace Final.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize]
+        // [Authorize]
         public async Task<ActionResult<Vault>> Get(int id)
         {
             try
@@ -139,7 +139,8 @@ namespace Final.Controllers
         }
 
 
-        
-        
     }
+        
+        
+    
 }

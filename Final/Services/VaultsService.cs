@@ -26,10 +26,10 @@ namespace Final.Services
         //     return found;
         // }
 
-        internal List<Vault> Get()
+        internal List<Vault> Get(string userId)
         {
             List<Vault> vaults = _repo.Get();
-            // return vaults.FindAll(v => v.IsPrivate == false || v.CreatorId == userId);
+            return vaults.FindAll(v => v.IsPrivate == false || v.CreatorId == userId);
             return vaults;
         }
 

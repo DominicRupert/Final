@@ -40,3 +40,12 @@ CREATE TABLE
         FOREIGN KEY (keepId) REFERENCES keeps(id) ON DELETE CASCADE,
         FOREIGN KEY (vaultId) REFERENCES vaults(id) ON DELETE CASCADE
     )DEFAULT CHARSET utf8 COMMENT '';
+
+
+
+    SELECT 
+            v.*,
+            a.*
+            FROM vaults v
+            JOIN accounts a ON v.creatorId = a.id
+            WHERE v.creatorId = '625ef350daa8efd3f6cce827'

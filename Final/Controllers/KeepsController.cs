@@ -58,8 +58,8 @@ namespace Final.Controllers
             {
                 Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
                 newKeep.CreatorId = userInfo.Id;
-                newKeep.Creator = userInfo;
                 Keep created = _ks.Create(newKeep);
+                newKeep.Creator = userInfo;
                 return Ok(newKeep);
 
             }

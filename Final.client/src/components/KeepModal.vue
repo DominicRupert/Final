@@ -2,15 +2,18 @@
   <Modal id="keep-modal">
     <template #modal-title>{{ keep.name }}</template>
     <template #modal-body>
-      <div class="container">
-        <div class="col-md-6">
-          <h3>{{ keep.name }}</h3>
-          <p>{{ keep.description }}</p>
-          <img :src="keep.img" class="img-fluid" alt="" />
-          <p @click="goToProfile">{{ keep.name }}</p>
-          <img :src="keep.img" class="img-fluid py-2" alt="" />
-          <button class="btn btn-dark"><h3>Add To Vault</h3></button>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-6">
+            
+            <!-- <h3>{{ keep.name }}</h3> -->
+          <!-- <p>{{ keep.description }}</p> -->
+          <img :src="keep.img" class="img-fluid" :alt="keep.img" />
+          <!-- <p @click="goToProfile">{{ keep.name }}</p> -->
+          <!-- <img :src="keep.img" class="img-fluid py-2" alt="" /> -->
+          <!-- <button class="btn btn-dark"><h3>Add To Vault</h3></button> -->
         </div>
+          </div>
       </div>
     </template>
   </Modal>
@@ -19,22 +22,23 @@
 
 <script>
 import { AppState } from '../AppState.js'
-import { computed, reactive } from 'vue'
-import { useRouter } from 'vue-router'
-import { logger } from '../utils/Logger.js'
 import { keepsService } from '../services/KeepsService.js'
+import { computed, onMounted, reactive } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+import { logger } from '../utils/Logger.js'
 
 export default {
 
-  setup() {
+  setup() { 
     const router = useRouter()
+    const route = useRoute()
     return {
+      keep: computed(() => AppState.keeps),
         activeKeep: computed(() => AppState.activeKeep),
         activeVault: computed(() => AppState.activeVault),
 
       account: computed(() => AppState.account),
 
-      keep: computed(() => AppState.keeps),
       vaults: computed(() => AppState.vaults),
       user: computed(() => AppState.user),
 

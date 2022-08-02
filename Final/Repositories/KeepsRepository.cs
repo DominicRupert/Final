@@ -146,20 +146,20 @@ namespace Final.Repositories
             
 
         // }
-        internal List <Vault> GetMyVaults(string id)
+        internal List <Vault> GetMyVaults(string creatorId)
         {
             string sql = @"
             SELECT 
             v.*,
             a.*
             FROM vaults v
-            JOIN accounts a ON a.id = v.creatorId
-            WHERE a.id = @id";
+            JOIN accounts a ON v.creatorId = a.id
+            WHERE a.id = @creatorId";
             return _db.Query<Vault, Account, Vault>(sql, (vault, a)=>
             {
                 vault.Creator = a;
                 return vault;
-            }).ToList();
+            }, new {creatorId}).ToList();
         }
 
         // internal List<VaultKeepModel> GetByVaultId(int id)

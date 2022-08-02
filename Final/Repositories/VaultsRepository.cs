@@ -1,10 +1,9 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Final.Models;
 using System.Data;
 using Dapper;
+using System;
 
 namespace Final.Repositories
 {
@@ -15,39 +14,44 @@ namespace Final.Repositories
         {
             _db = db;
         }
-        internal Vault FindExisting(Vault newVault)
-        {
-            string sql = "SELECT * FROM vaults WHERE vaultId = @VaultId AND creatorId = @CreatorId";
-            return _db.Query<Vault>(sql, newVault).FirstOrDefault();
+        // internal Vault FindExisting(Vault newVault)
+        // {
+        //     string sql = "SELECT * FROM vaults WHERE vaultId = @VaultId AND creatorId = @CreatorId";
+        //     return _db.Query<Vault>(sql, newVault).FirstOrDefault();
 
-        }
+        // }
+        
 
         internal List<Vault> Get()
         {
             string sql = @"
             SELECT 
-            a.*,
-            v.*
+            v.*,
+            a.*
             FROM vaults v
-            JOIN accounts a ON a.id = v.creatorId";
+            JOIN accounts a ON v.creatorId = a.id
+            ";
 
-            return _db.Query<Account, Vault, Vault>(sql, (a, vault) =>
+            return _db.Query<Vault, Account, Vault>(sql, (vault, a) =>
             {
                 vault.Creator = a;
                 return vault;
             }).ToList();
         }
+
+       
+
         internal Vault Get(int id)
         {
             string sql = @"
             SELECT 
-            a.*,
-            v.*
+            v.*,
+            a.*
             FROM vaults v
             JOIN accounts a ON a.id = v.creatorId
             WHERE v.id = @id";
 
-            return _db.Query<Account, Vault, Vault>(sql, (a, vault) =>
+            return _db.Query<Vault, Account, Vault>(sql, (vault, a) =>
             {
                 vault.Creator = a;
                 return vault;
@@ -69,7 +73,7 @@ namespace Final.Repositories
             return newVault;
         }
 
-        internal List<Vault> GetVaultsByUserId(string id)
+        internal List<Vault> GetVaultsByUserId(string creatorId)
         {
             string sql = @"
             SELECT 
@@ -83,7 +87,7 @@ namespace Final.Repositories
             {
                 vault.Creator = a;
                 return vault;
-            }).ToList();
+            },new {creatorId} ).ToList();
         }
 
         internal void Edit(Vault original)
