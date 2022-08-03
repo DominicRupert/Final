@@ -6,14 +6,17 @@ class VaultKeepsService {
     const res = await api.get(`api/vaults/${id}/keeps`);
     AppState.vaultKeeps = res.data;  
   }
-    async createVaultKeeps(vaultKeep) {
-        const res = await api.post(`api/vaults/${vaultKeep.vaultId}/keeps`, vaultKeep);
+
+    async createVaultKeeps(vaultId, vaultKeep) {
+      AppState.vaultKeeps = res.data
+        const res = await api.post(`api/vaults/${vaultId}/keeps`, vaultKeep);
         AppState.vaultKeeps.push(res.data);
     }
     async deleteVaultKeeps(vaultKeepId) {
         const res = await api.delete(`api/vaultkeeps/${vaultKeepId}`);
         AppState.vaultKeeps = AppState.vaultKeeps.filter(vaultKeep => vaultKeep.id !== vaultKeepId);
     }
+    
   }
 
 

@@ -1,14 +1,13 @@
 
 <template>
+        <KeepModal />
+
 
 
   <div class="container masonry-with-columns ">
-    <KeepModal />
     <div v-for="k in keeps" :key="k.id" class=" p-3 ">
         <Keep :keep="k" />
     </div>
-  
-   
     </div>
 
  
@@ -19,26 +18,49 @@ import {computed, onMounted, ref} from 'vue'
 import {AppState} from '../AppState.js'
 import { logger } from '../utils/Logger.js'
 import { keepsService } from '../services/KeepsService.js'
+import { profilesService } from '../services/ProfilesService.js'
 import { useRoute } from 'vue-router'
 import  Pop  from '../utils/Pop.js'
+import { vaultsService } from '../services/VaultsService.js'
+import { vaultKeepsService } from '../services/VaultKeepsService.js'
+import { accountService } from '../services/AccountService.js'
+import { Modal } from 'bootstrap'
 export default {
+  props: {
+    keep: {
+      type: Object,
+      required: true
+    }
+  },
+  props: {
+    vault: {
+      type: Object,
+      required: true
+    }
+  },
   name: 'Home',
-  setup(){  onMounted(async ()=>{
+  setup(props){  onMounted(async ()=>{
     try{
+      await vaultsService.getVaultsByUserId( AppState.vaults.userId); 
       await keepsService.getKeeps()
     }catch(e){
       logger.error(e)
       Pop.toast(e.message)
-
-
     }
   })
   return {
+    async setActive(){
+      try{
+        await keepsService.setActive(props.keep)
+      }catch(e){
+        logger.error(e)
+        Pop.toast(e.message)
+      }
+    },
     keeps: computed(()=>AppState.keeps)
   }
   }
 }
-
 </script>
 
 <style scoped lang="scss">

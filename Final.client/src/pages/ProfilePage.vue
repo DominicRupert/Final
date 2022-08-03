@@ -1,19 +1,21 @@
 <template>
+        <KeepModal />
+
   <div class="masonry-container">
     <div class="row">
-
       <div class="col">
-            <KeepModal />
 
         <h1>Profile Page</h1>
         <h2>{{ profile.name }}</h2>
-        <button v-if="activeProfile.id==account.id" @click="createVaults">new vault</button>
+        <button v-if="activeProfile.id == account.id" @click="createVaults">
+          new vault
+        </button>
         <div v-for="v in vaults" :key="v.id">
           <Vault :vault="v" />
         </div>
         <img :src="profile.picture" class="img-fluid" alt="" />
         <!-- <p>{{ profile.description }}</p> -->
-        <div v-for="k in keeps" :key="k.id" class=" p-3 ">
+        <div v-for="k in keeps" :key="k.id" class="p-3">
           <Keep :keep="k" />
         </div>
       </div>
@@ -24,7 +26,7 @@
 
 <script>
 import { AppState } from '../AppState.js'
-import { computed, onMounted, watchEffect } from 'vue'
+import { computed, onMounted, watchEffect, ref } from 'vue'
 import { profilesService } from '../services/ProfilesService.js'
 import { keepsService } from '../services/KeepsService.js'
 import { useRoute } from 'vue-router'
@@ -48,11 +50,15 @@ export default {
     }
   },
   setup(props) {
+    const editable = ref({})
+    watchEffect(()=>{
+      AppState.profile
+    })
 
     const route = useRoute();
     onMounted(async () => {
       try {
-        
+
         // await keepsService.getKeeps()
         // await keepsService.setActive(props.keep)
 
@@ -67,7 +73,7 @@ export default {
         logger.error(error);
         Pop.toast(error.message);
       }
-      
+
     })
     return {
       async createVaults() {
@@ -76,9 +82,6 @@ export default {
             name: 'New Vault',
             description: 'New Vault',
             userId: AppState.activeProfile
-          
-            
-            
           });
           Pop.toast("Vault created");
         } catch (error) {
@@ -86,14 +89,11 @@ export default {
           Pop.toast(error.message);
         }
       },
-          
-     
-      route,
+  route,
       activeProfile: computed(() => AppState.activeProfile),
       profile: computed(() => AppState.profile),
       account: computed(() => AppState.account),
-      // keeps: computed(() => AppState.keeps),
-      // vaults: computed(() => AppState.vaults),
+     
       keeps: computed(() => AppState.profileKeeps),
       vaults: computed(() => AppState.profileVaults),
       user: computed(() => AppState.user),
@@ -101,7 +101,6 @@ export default {
 
     };
   },
-  // components: { Keep }
 }
 </script>
 

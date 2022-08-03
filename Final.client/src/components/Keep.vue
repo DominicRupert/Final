@@ -33,6 +33,7 @@ import { AppState } from '../AppState.js'
 import { keepsService } from '../services/KeepsService.js'
 
 import { useRouter } from 'vue-router'
+import Pop from '../utils/Pop.js'
 
 
 export default {
@@ -62,6 +63,7 @@ export default {
       vaults: computed(() => AppState.vaults),
       profile: computed(() => AppState.profile),
       pkeeps: computed(() => AppState.profileKeeps),
+      
       // akeeps: computed(() => AppState.accountKeeps),
       goToProfile() {
         Modal.getOrCreateInstance(document.getElementById("keep-modal")).hide()
