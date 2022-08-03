@@ -1,9 +1,11 @@
 <template>
-  <button @click="goToVault">
+
+  <button class="btn btn-dark " @click="goToVault">
     <div>{{ vault.name }}</div>
     <div>{{ vault.creator?.name }}</div>
     <img :src="vault.img" alt="" />
   </button>
+
 </template>
 
 
@@ -28,7 +30,7 @@ export default {
     return {
       async goToVault() {
         try {
-          if (props.vault.isPrivate && props.vault.creator.id !== AppState.user.id) {
+          if (props.vault.isPrivate && props.vault.creator.id !== AppState.account.Id) {
             Pop.toast('You do not have access to this vault')
             return
           }

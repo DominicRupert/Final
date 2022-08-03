@@ -98,21 +98,22 @@ export default {
       profile: computed(() => AppState.profile),
       account: computed(() => AppState.account),
       pkeeps: computed(() => AppState.profileKeeps),
+      vaultKeep: computed(() => AppState.vaultKeeps),
 
       // vault: computed(() => AppState.vaults),
       goToProfile() {
         Modal.getOrCreateInstance(document.getElementById("keep-modal")).hide();
         router.push({ name: "Profile", params: { id: AppState.keeps?.creatorId } });
       },
-    //  async createVaultKeeps(){
-    //   try {
-    //     await vaultKeepsService.createVaultKeeps(props.vaultKeep);
-    //   }
-    //   catch (error) {
-    //     logger.error(error);
-    //   }
+     async createVaultKeeps(){
+      try {
+        await vaultKeepsService.createVaultKeeps(props.vaultKeep);
+      }
+      catch (error) {
+        logger.error(error);
+      }
         
-    //  }
+     }
     };
   },
 }

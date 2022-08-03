@@ -7,11 +7,15 @@
 
         <h1>Profile Page</h1>
         <h2>{{ profile.name }}</h2>
-        <button v-if="activeProfile.id == account.id" @click="createVaults">
+        <button class="btn btn-success" v-if="activeProfile.id == account.id" @click="createVaults">
           new vault
         </button>
-        <div v-for="v in vaults" :key="v.id">
+        <div class="container d-flex">
+        <div class="row flex-row">
+        <div class="col-3 p-2" v-for="v in vaults" :key="v.id">
           <Vault :vault="v" />
+        </div>
+        </div>
         </div>
         <img :src="profile.picture" class="img-fluid" alt="" />
         <!-- <p>{{ profile.description }}</p> -->
