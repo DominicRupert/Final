@@ -4,8 +4,7 @@
   <div class="masonry-frame">
     <div class="row">
       <div class="col-12">
-        <Keep v-for="k in keeps" :keep="k" :key="k.id" />
-        <!-- <h5 class="card-title">{{ keep.name }}</h5> -->
+        <h5 class="card-title">{{ keeps.name }}</h5>
         <!-- <p class="card-text">{{ keep.description }}</p> -->
       </div>
     </div>
@@ -44,8 +43,14 @@ export default {
     const router = useRouter();
     onMounted(async () => {
       try {
+        await vaultsService.getVaultsByUserId(route.params.id);
+        await keepsService.getKeeps();
+
         await vaultsService.getVaultById(route.params.id);
-        await vaultsService.getVaultKeeps(route.params.id);
+        await vaultKeepsService.getVaultKeeps(route.params.id);
+        // await keepsService.getKeepsByVaultId(route.params.id);
+        // await vaultsService.getVaultKeeps(route.params.id);
+        // await vaultKeepsService.getVaultKeeps(route.params.id);
       }
       catch (error) {
         logger.error(error);

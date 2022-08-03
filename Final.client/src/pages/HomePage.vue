@@ -4,9 +4,12 @@
 
 
 
-  <div class="container masonry-with-columns ">
-    <div v-for="k in keeps" :key="k.id" class=" p-3 ">
+  <div class="container ">
+    <div class="masonry-with-columns">
+
+      <div v-for="k in keeps" :key="k.id" class=" p-3 ">
         <Keep :keep="k" />
+    </div>
     </div>
     </div>
 

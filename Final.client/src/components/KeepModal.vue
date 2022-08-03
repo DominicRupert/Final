@@ -5,6 +5,7 @@
     </template>
     <template #modal-body>
       <div class="container-fluid">
+        <h3>View Count: {{keep.views}}</h3>
       <img
         @click="goToProfile"
         :src="keep.creator?.picture"

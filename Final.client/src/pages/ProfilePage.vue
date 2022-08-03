@@ -17,15 +17,10 @@
         </div>
         </div>
         </div>
-        <div class="masonry-container">
-        <div class="row flex-row">
-
-          <img :src="profile.picture" class="img-fluid" alt="" />
+        <img :src="profile.picture" class="img-fluid" alt="" />
         <!-- <p>{{ profile.description }}</p> -->
         <div v-for="k in keeps" :key="k.id" class="p-3">
           <Keep :keep="k" />
-        </div>
-        </div>
         </div>
       </div>
     </div>
@@ -122,6 +117,5 @@ export default {
   padding: 2em;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   grid-auto-rows: minmax(100px, auto);
-  columns: auto-fit;
 }
 </style>

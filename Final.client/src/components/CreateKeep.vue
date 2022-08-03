@@ -1,15 +1,20 @@
 <template>
-  <Modal id="keep-modal">
-    <template #modal-title
-      >{{ keep.name }} by: {{ keep.creator?.name }}
-    </template>
-    <template #modal-body>
-      <div class="container-fluid">
-   
-        
-      </div>
-    </template>
-  </Modal>
+<form class="row g-3">
+  <div class="col-md-6">
+    <label for="inputEmail4" class="form-label">Email</label>
+    <input type="email" class="form-control" id="inputEmail4">
+  </div>
+      <div class="form-check">
+      <input class="form-check-input" type="checkbox" id="gridCheck">
+      <label class="form-check-label" for="gridCheck">
+        Check me out
+      </label>
+    </div>
+  <div class="col-12">
+    <button type="submit" class="btn btn-primary">Sign in</button>
+  </div>
+</form>
+ 
 
 </template>
 
