@@ -6,6 +6,7 @@
     <template #modal-body>
       <div class="container-fluid">
         <h3>View Count: {{keep.views}}</h3>
+        <h3>Kept Count: {{keep.kept}}</h3>
       <img
         @click="goToProfile"
         :src="keep.creator?.picture"
@@ -31,7 +32,7 @@
             </button>
             <ul class="dropdown-menu">
               <li v-for="v in vaults" :key="v.id">
-                <Vault @click="createVaultKeeps" :vault="v" />
+                <a @click="addToVault">{{ v.name }}</a>
               </li>
             </ul>
           </div>
@@ -85,9 +86,9 @@ export default {
           logger.error(error);
         }
       },
-      async addToVaults(vault) {
+      async addToVault() {
         try {
-          await keepsService.addToVault(props.vault, props.keep, vault, props.vaultKeep);
+          await keepsService.addToVault(props.vk);
         }
         catch (error) {
           logger.error(error);

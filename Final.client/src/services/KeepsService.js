@@ -65,12 +65,19 @@ class KeepsService {
     logger.log("[setActive]", res.data);
     AppState.activeKeep = res.data;
   }
-  async addToVault(id, vault) {
+  async addToVault(keepId, vaultId) {
+    const vk = {keepId,vaultId}
+    const res = await api.post(`api/vaultkeeps/`,vk);
+    logger.log("[addToVault]", res.data);
+    AppState.vaultKeeps.push(res.data);
+    
+    
+  }
+  async getKeepsByVaultId(id) {
     try {
-      const res = await api.post(`api/vaults/${id}/keeps`, vault);
-      
-      logger.log("Keep added to vault", res.data);
-      AppState.vaultKeeps = res.data;
+      const res = await api.get(`api/vaults/${id}/keeps`);
+      logger.log("[getKeepsByVaultId]", res.data);
+      AppState.keeps = res.data;
     } catch (error) {
       logger.error(error);
     }

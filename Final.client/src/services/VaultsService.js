@@ -19,6 +19,7 @@ class VaultsService{
 
     async getVaultKeeps(id){
         const res = await api.get(`api/vaults/${id}/keeps`);
+        logger.log("[getVaultKeeps]", res.data);
         AppState.keeps = res.data;
     }
     async createVaults(vault){

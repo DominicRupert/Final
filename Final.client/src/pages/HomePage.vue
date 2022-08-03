@@ -5,6 +5,8 @@
 
 
   <div class="container ">
+    <NewVault/>
+    <CreateKeep/>
     <div class="masonry-with-columns">
 
       <div v-for="k in keeps" :key="k.id" class=" p-3 ">
@@ -28,41 +30,47 @@ import { vaultsService } from '../services/VaultsService.js'
 import { vaultKeepsService } from '../services/VaultKeepsService.js'
 import { accountService } from '../services/AccountService.js'
 import { Modal } from 'bootstrap'
+import NewVault from '../components/NewVault.vue'
+import CreateKeep from '../components/CreateKeep.vue'
 export default {
-  props: {
-    keep: {
-      type: Object,
-      required: true
-    }
-  },
-  props: {
-    vault: {
-      type: Object,
-      required: true
-    }
-  },
-  name: 'Home',
-  setup(props){  onMounted(async ()=>{
-    try{
-      await vaultsService.getVaultsByUserId( AppState.vaults.userId); 
-      await keepsService.getKeeps()
-    }catch(e){
-      logger.error(e)
-      Pop.toast(e.message)
-    }
-  })
-  return {
-    async setActive(){
-      try{
-        await keepsService.setActive(props.keep)
-      }catch(e){
-        logger.error(e)
-        Pop.toast(e.message)
-      }
+    props: {
+        keep: {
+            type: Object,
+            required: true
+        }
     },
-    keeps: computed(()=>AppState.keeps)
-  }
-  }
+    props: {
+        vault: {
+            type: Object,
+            required: true
+        }
+    },
+    name: "Home",
+    setup(props) {
+        onMounted(async () => {
+            try {
+                await vaultsService.getVaultsByUserId(AppState.vaults.userId);
+                await keepsService.getKeeps();
+            }
+            catch (e) {
+                logger.error(e);
+                Pop.toast(e.message);
+            }
+        });
+        return {
+            async setActive() {
+                try {
+                    await keepsService.setActive(props.keep);
+                }
+                catch (e) {
+                    logger.error(e);
+                    Pop.toast(e.message);
+                }
+            },
+            keeps: computed(() => AppState.keeps)
+        };
+    },
+    components: { NewVault, CreateKeep }
 }
 </script>
 

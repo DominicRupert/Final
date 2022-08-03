@@ -1,8 +1,14 @@
 <template>
 
   <button class="btn btn-dark " @click="goToVault">
-    <div>{{ vault.name }}</div>
-    <!-- <div>{{ vault.creator?.name }}</div> -->
+      <h1>
+        
+        {{ vault.name }}
+
+      </h1>
+    <div>
+      </div>
+    <div>{{ vault.creator?.name }}</div>
     <!-- <img :src="vault.img" alt="" /> -->
   </button>
 
@@ -33,37 +39,36 @@ export default {
   },
 
   setup(props) {
+    onMounted(async () => {
+     
+    });
     const router = useRouter()
+    const route = useRoute()
     return {
       async goToVault() {
-         router.push({
-           name: "Vault",
-           params: {
-             id: props.vault?.id
-           }
-         })
-        try {
-          
-          if (props.vault.isPrivate && props.vault.creator.id !== AppState.account.Id) {
-            Pop.toast('You do not have access to this vault')
+        router.push({
+          name: "Vault",
+          params: {
+            id: props.vault.id
           }
-          // await vaultsService.getVaultsByUserId(AppState.profileVaults.userId);
-          // await vaultKeepsService.getVaultKeeps(props.vault.id);
-          await vaultsService.getVaultById(route.params.id);
-          // await vaultKeepsService.getVaultKeeps(props.vault.id);
-          // await vaultsService.getVaultKeeps(props.vault.id);
-          // vaultsService.getVaults()
+        })
+        try {
+
+          // if (props.vault.isPrivate && props.vault.creator.id !== AppState.account.Id) {
+          //   Pop.toast('You do not have access to this vault')
+          // }
+
         }
         catch (error) {
           logger.error(error);
         }
       },
-      vault: computed(() => AppState.vaults),
+      // vault: computed(() => AppState.vaults),
       // vault: computed(() => AppState.vaults.find(v => v.id === props.vault.id)),
 
       // account: computed(() => AppState.account),
       profile: computed(() => AppState.profile),
-      // pvaults: computed(() => AppState.profileVaults),
+      vaults: computed(() => AppState.profileVaults),
       // keeps: computed(() => AppState.profileKeeps),
 
       // avaults: computed(() => AppState.),
