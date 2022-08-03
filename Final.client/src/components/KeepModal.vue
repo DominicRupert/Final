@@ -30,7 +30,7 @@
             </button>
             <ul class="dropdown-menu">
               <li v-for="v in vaults" :key="v.id">
-                <Vault @click="addToVault" :vault="v" />
+                <Vault @click="createVaultKeeps" :vault="v" />
               </li>
             </ul>
           </div>
@@ -48,6 +48,8 @@ import { AppState } from '../AppState.js'
 import { keepsService } from '../services/KeepsService.js'
 import { vaultKeepsService } from '../services/VaultKeepsService.js'
 import { useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
+
 import { logger } from '../utils/Logger.js'
 import Pop from '../utils/Pop.js'
 export default {
@@ -72,7 +74,7 @@ export default {
   
   setup(props) {
     const router = useRouter();
-    // const route = useRoute()
+    const route = useRoute()
     return {
       async setActive() {
         try {
@@ -84,7 +86,7 @@ export default {
       },
       async addToVaults(vault) {
         try {
-          await keepsService.addToVault(props.vault);
+          await keepsService.addToVault(props.vault, props.keep, vault, props.vaultKeep);
         }
         catch (error) {
           logger.error(error);
@@ -122,9 +124,6 @@ export default {
 
 <style lang="scss" scoped>
 .pfp {
-  position: relative;
-  top: -50px;
-  left: 250px;
-  width: 75px;
+ 
 }
 </style>

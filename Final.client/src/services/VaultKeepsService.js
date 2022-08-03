@@ -1,5 +1,7 @@
 import { AppState } from "../AppState.js";
 import { api } from "./AxiosService.js";
+import { profilesService } from "../services/ProfilesService.js";
+import { keepsService } from "./KeepsService.js";
 
 class VaultKeepsService {
   async getVaultKeeps(id) {
@@ -7,9 +9,9 @@ class VaultKeepsService {
     AppState.vaultKeeps = res.data;  
   }
 
-    async createVaultKeeps(vaultId, vaultKeep) {
-      AppState.vaultKeeps = res.data
-        const res = await api.post(`api/vaults/${vaultId}/keeps`, vaultKeep);
+    async createVaultKeeps(vaultId,id, vaultKeep) {
+      // AppState.vaultKeeps.push(vaultKeep);
+        const res = await api.post(`api/vaults/${id}/keeps`, vaultKeep);
         AppState.vaultKeeps.push(res.data);
     }
     async deleteVaultKeeps(vaultKeepId) {
