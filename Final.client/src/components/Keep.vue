@@ -1,27 +1,20 @@
 <template>
-  <div
-    class="selectable"
-    @click="setActive"
-    data-bs-target="#keep-modal"
-    data-bs-toggle="modal"
-  >
-    <div>
-      <p>{{ keep.creator.name }}</p>
+
+  <div class="selectable card" @click="setActive" data-bs-target="#keep-modal" data-bs-toggle="modal">
+
+
+    <img :src="keep.img" class="img-fluid card-img" alt="">
+    <div class="card-img-overlay">
+
+      <h3 class="card-title txt text-white">{{ keep.name }}
+      </h3>
     </div>
-    <div class="card bg-dark">
-      <h3 class="">{{ keep.name }}</h3>
-    </div>
-    <div>
-      <img :src="keep.img" class="img-fluid" alt="" />
-    </div>
-    <div class="bg-dark"></div>
+
   </div>
-  <img
-    @click="goToProfile"
-    :src="keep.creator.picture"
-    class="pfp img-fluid p-0 rounded-pill selectable"
-    alt=""
-  />
+  <div>
+
+    <img @click.stop="goToProfile" :src="keep.creator.picture" class=" img-fluid p-0 rounded-pill selectable" alt="" />
+  </div>
 </template>
 
 
@@ -63,16 +56,12 @@ export default {
       vaults: computed(() => AppState.vaults),
       profile: computed(() => AppState.profile),
       pkeeps: computed(() => AppState.profileKeeps),
-      
+
       // akeeps: computed(() => AppState.accountKeeps),
       goToProfile() {
         Modal.getOrCreateInstance(document.getElementById("keep-modal")).hide()
         router.push({ name: 'Profile', params: { id: props.keep.creatorId } })
       },
-
-
-
-
     }
   }
 }
@@ -80,10 +69,8 @@ export default {
 
 
 <style lang="scss" scoped>
-.pfp {
-  position: relative;
-  top: -100px;
-  left: 50px;
-  width: 75px;
+h3 {
+  text-shadow: 4px 4px 4px black !important;
+
 }
 </style>

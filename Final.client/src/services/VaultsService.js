@@ -25,7 +25,7 @@ class VaultsService{
     async createVaults(vault){
         const res = await api.post(`api/vaults`, vault);
         logger.log("Vault created", res.data);
-        // AppState.vaults.push(res.data);
+        AppState.vaults.push(res.data);
     }
     async updateVaults(vault){
         const res = await api.put(`api/vaults/${vault.id}`, vault);
@@ -35,6 +35,14 @@ class VaultsService{
         const res = await api.delete(`api/vaults/${id}`);
         AppState.vaults = AppState.vaults.filter(vault => vault.id !== id);
     }
+    async getMyVaults(vaultId){
+        const res = await api.get(`account/vaults/`);
+        logger.log("[getMyVaults]", res.data);
+        AppState.myVaults = res.data;
+    }
+
+
+
     
 }
 

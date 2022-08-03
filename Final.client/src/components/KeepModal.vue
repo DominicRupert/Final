@@ -32,7 +32,7 @@
             </button>
             <ul class="dropdown-menu">
               <li v-for="v in vaults" :key="v.id">
-                <a @click="addToVault">{{ v.name }}</a>
+                <a @click="addToVault(v.id)">{{ v.name }}</a>
               </li>
             </ul>
           </div>
@@ -55,29 +55,12 @@ import { useRoute } from 'vue-router'
 import { logger } from '../utils/Logger.js'
 import Pop from '../utils/Pop.js'
 export default {
-  props: {
-    keep: {
-      type: Object,
-      required: true
-    }
-  },
-  props:{
-    vault: {
-      type: Object,
-      required: true
-    }
-  },
-  props:{
-    vaultKeep: {
-      type: Object,
-      required: true
-    }
-  },
-  
+ 
   setup(props) {
     const router = useRouter();
     const route = useRoute()
     return {
+      
       async setActive() {
         try {
           await keepsService.setActive(props.keep);
@@ -86,38 +69,39 @@ export default {
           logger.error(error);
         }
       },
-      async addToVault() {
+      // activeKeep,
+      // keep: reactive(route.params.keep),
+      // keep: computed(() => AppState.keeps),
+      // vaults: computed(() => AppState.vaults),
+      keep: computed(() => AppState.activeKeep),
+      vaults: computed(() => AppState.myVaults),
+      profile: computed(() => AppState.profile),
+      account: computed(() => AppState.account),
+      keeps: computed(() => AppState.profileKeeps),
+      vaultKeep: computed(() => AppState.vaultKeeps),
+      async addToVault(id) {
         try {
-          await keepsService.addToVault(props.vk);
+          await keepsService.addToVault(AppState.activeKeep.id, id );
         }
         catch (error) {
           logger.error(error);
         }
       },
-      // activeKeep,
-      // keep: reactive(route.params.keep),
-      keep: computed(() => AppState.keeps),
-      keep: computed(() => AppState.activeKeep),
-      vaults: computed(() => AppState.profileVaults),
-      profile: computed(() => AppState.profile),
-      account: computed(() => AppState.account),
-      pkeeps: computed(() => AppState.profileKeeps),
-      vaultKeep: computed(() => AppState.vaultKeeps),
 
       // vault: computed(() => AppState.vaults),
       goToProfile() {
         Modal.getOrCreateInstance(document.getElementById("keep-modal")).hide();
         router.push({ name: "Profile", params: { id: AppState.keeps?.creatorId } });
       },
-     async createVaultKeeps(){
-      try {
-        await vaultKeepsService.createVaultKeeps(props.vaultKeep);
-      }
-      catch (error) {
-        logger.error(error);
-      }
+    //  async createVaultKeeps(){
+    //   try {
+    //     await vaultKeepsService.createVaultKeeps(props.vaultKeep);
+    //   }
+    //   catch (error) {
+    //     logger.error(error);
+    //   }
         
-     }
+    //  }
     };
   },
 }

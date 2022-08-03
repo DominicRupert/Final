@@ -119,4 +119,17 @@ export default {
 
 
 <style lang="scss" scoped>
+.masonry-container {
+  columns: 4;
+
+  // column-gap: 10px;
+  div {
+    break-inside: avoid;
+    }
+   @media only screen and (max-width: 600px) {
+     columns: 1;
+
+
+    }
+}
 </style>

@@ -1,31 +1,39 @@
 
 <template>
-        <KeepModal />
+    <KeepModal />
 
 
 
-  <div class="container ">
-    <NewVault/>
-    <CreateKeep/>
-    <div class="masonry-with-columns">
+    <div class="container ">
+        <div class="row">
+            <div class="col-md-6">
+                <NewVault />
+            </div>
+            <div class="col-md-6">
 
-      <div v-for="k in keeps" :key="k.id" class=" p-3 ">
-        <Keep :keep="k" />
+
+                <CreateKeep />
+            </div>
+        </div>
     </div>
-    </div>
+    <div class="masonry-container">
+
+        <div v-for="k in keeps" :key="k.id" class=" p-3 ">
+            <Keep :keep="k" />
+        </div>
     </div>
 
- 
+
 </template>
 
 <script>
-import {computed, onMounted, ref} from 'vue'
-import {AppState} from '../AppState.js'
+import { computed, onMounted, ref } from 'vue'
+import { AppState } from '../AppState.js'
 import { logger } from '../utils/Logger.js'
 import { keepsService } from '../services/KeepsService.js'
 import { profilesService } from '../services/ProfilesService.js'
 import { useRoute } from 'vue-router'
-import  Pop  from '../utils/Pop.js'
+import Pop from '../utils/Pop.js'
 import { vaultsService } from '../services/VaultsService.js'
 import { vaultKeepsService } from '../services/VaultKeepsService.js'
 import { accountService } from '../services/AccountService.js'
@@ -37,9 +45,9 @@ export default {
         keep: {
             type: Object,
             required: true
-        }
-    },
-    props: {
+        },
+
+
         vault: {
             type: Object,
             required: true
@@ -75,31 +83,47 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
 .masonry-with-columns {
-  margin-top: 20px;
-  margin-bottom: 20px;
-  display: grid;
-  padding: 2em;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  grid-auto-rows: minmax(100px, auto);
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: grid;
+    padding: 2em;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-auto-rows: minmax(100px, auto);
 }
 
-.home{
-  display: grid;
-  height: 80vh;
-  place-content: center;
-  text-align: center;
-  user-select: none;
-  .home-card{
-    width: 50vw;
-    > img{
-      height: 200px;
-      max-width: 200px;
-      width: 100%;
-      object-fit: contain;
-      object-position: center;
+.home {
+    display: grid;
+    height: 80vh;
+    place-content: center;
+    text-align: center;
+    user-select: none;
+
+    .home-card {
+        width: 50vw;
+
+        >img {
+            height: 200px;
+            max-width: 200px;
+            width: 100%;
+            object-fit: contain;
+            object-position: center;
+        }
     }
-  }
+}
+
+.masonry-container {
+    columns: 4;
+
+    // column-gap: 10px;
+    div {
+        break-inside: avoid;
+    }
+
+    @media only screen and (max-width: 600px) {
+        columns: 1;
+
+
+    }
 }
 </style>

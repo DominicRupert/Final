@@ -65,8 +65,8 @@ class KeepsService {
     logger.log("[setActive]", res.data);
     AppState.activeKeep = res.data;
   }
-  async addToVault(keepId, vaultId) {
-    const vk = {keepId,vaultId}
+  async addToVault(keepId,vaultId) {
+    const vk = {vaultId,keepId}
     const res = await api.post(`api/vaultkeeps/`,vk);
     logger.log("[addToVault]", res.data);
     AppState.vaultKeeps.push(res.data);

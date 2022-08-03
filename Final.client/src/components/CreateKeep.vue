@@ -1,20 +1,17 @@
 <template>
-<form class="row g-3">
-  <div class="col-md-6">
-    <label for="inputEmail4" class="form-label">Email</label>
-    <input type="email" class="form-control" id="inputEmail4">
-  </div>
-      <div class="form-check">
-      <input class="form-check-input" type="checkbox" id="gridCheck">
-      <label class="form-check-label" for="gridCheck">
-        Check me out
-      </label>
+  <form class="row g-3">
+    <div class="col-md-6">
+      <label for="" class="form-label">New Keep Name</label>
+      <input type="text" class="form-control" id="inputEmail4">
+      <label for="" class="form-label">Image Url</label>
+      <input type="text" class="form-control" id="inputEmail4">
     </div>
-  <div class="col-12">
-    <button type="submit" class="btn btn-primary">Sign in</button>
-  </div>
-</form>
- 
+
+    <div class="col-12">
+      <button type="submit" class="btn btn-primary">Make new keep</button>
+    </div>
+  </form>
+
 
 </template>
 

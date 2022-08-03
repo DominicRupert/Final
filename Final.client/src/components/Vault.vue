@@ -1,13 +1,13 @@
 <template>
 
   <button class="btn btn-dark " @click="goToVault">
-      <h1>
-        
-        {{ vault.name }}
+    <h5>
 
-      </h1>
+      {{ vault.name }}
+
+    </h5>
     <div>
-      </div>
+    </div>
     <div>{{ vault.creator?.name }}</div>
     <!-- <img :src="vault.img" alt="" /> -->
   </button>
@@ -19,7 +19,6 @@
 import { computed, onMounted } from 'vue'
 import { logger } from '../utils/Logger.js'
 import { AppState } from '../AppState.js'
-// import { vaultKeepsService } from '../services/VaultKeepsService.js'
 
 import { vaultsService } from '../services/VaultsService.js'
 import { useRouter } from 'vue-router'
@@ -40,7 +39,8 @@ export default {
 
   setup(props) {
     onMounted(async () => {
-     
+      // await vaultsService.getMyVaults();
+
     });
     const router = useRouter()
     const route = useRoute()

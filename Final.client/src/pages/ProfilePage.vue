@@ -1,30 +1,43 @@
 <template>
-        <KeepModal />
+  <div class=" container">
+    
+    
+    <h1>Profile Page</h1>
+    <img :src="activeProfile.picture" class="img-fluid" alt="" />
+      <h2>{{ profile.name }}</h2>
+       <div class="container ">
+        <div class="row">
+            <div class="col-md-6">
+                <NewVault />
+            </div>
+            <div class="col-md-6">
 
+
+                <CreateKeep />
+            </div>
+        </div>
+    </div>
+
+    </div>
+ 
+<div class="masonry-container">
+
+  <div class="p-3" v-for="v in vaults" :key="v.id">
+        <Vault :vault="v" />
+</div>
+      </div>
   <div class="masonry-container">
-    <div class="row">
-      <div class="col">
 
-        <h1>Profile Page</h1>
-        <h2>{{ profile.name }}</h2>
-        <button class="btn btn-success" v-if="activeProfile.id == account.id" @click="createVaults">
-          new vault
-        </button>
-        <div class="container d-flex">
-        <div class="row flex-row">
-        <div class="col-3 p-2" v-for="v in vaults" :key="v.id">
-          <Vault :vault="v" />
-        </div>
-        </div>
-        </div>
-        <img :src="profile.picture" class="img-fluid" alt="" />
-        <!-- <p>{{ profile.description }}</p> -->
-        <div v-for="k in keeps" :key="k.id" class="p-3">
-          <Keep :keep="k" />
+      
+      
+      
+      
+      <!-- <p>{{ profile.description }}</p> -->
+    <div v-for="k in keeps" :key="k.id" class="p-3">
+      <Keep :keep="k" />
         </div>
       </div>
-    </div>
-  </div>
+        <KeepModal />
 </template>
 
 
@@ -55,7 +68,7 @@ export default {
   },
   setup(props) {
     const editable = ref({})
-    watchEffect(()=>{
+    watchEffect(() => {
       AppState.profile
     })
 
@@ -93,11 +106,11 @@ export default {
           Pop.toast(error.message);
         }
       },
-  route,
+      route,
       activeProfile: computed(() => AppState.activeProfile),
       profile: computed(() => AppState.profile),
       account: computed(() => AppState.account),
-     
+
       keeps: computed(() => AppState.profileKeeps),
       vaults: computed(() => AppState.profileVaults),
       user: computed(() => AppState.user),
@@ -111,11 +124,16 @@ export default {
 
 <style lang="scss" scoped>
 .masonry-container {
-  margin-top: 20px;
-  margin-bottom: 20px;
-  display: grid;
-  padding: 2em;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  grid-auto-rows: minmax(100px, auto);
+  columns: 4;
+
+  // column-gap: 10px;
+  div {
+    break-inside: avoid;
+    }
+   @media only screen and (max-width: 600px) {
+     columns: 1;
+
+
+    }
 }
 </style>
