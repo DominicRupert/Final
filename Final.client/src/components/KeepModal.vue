@@ -90,6 +90,7 @@ export default {
       async addToVault(id) {
         try {
           await keepsService.addToVault(AppState.activeKeep.id, id );
+          Pop.toast("Keep added to vault", "success");
         }
         catch (error) {
           logger.error(error);
@@ -99,7 +100,7 @@ export default {
       // vault: computed(() => AppState.vaults),
       goToProfile() {
         Modal.getOrCreateInstance(document.getElementById("keep-modal")).hide();
-        router.push({ name: "Profile", params: { id: AppState.keeps?.creatorId } });
+        router.push({ name: "Profile", params: { id: AppState.activeKeep?.creatorId } });
       },
     //  async createVaultKeeps(){
     //   try {

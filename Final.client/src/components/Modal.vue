@@ -7,7 +7,6 @@
             <slot name="modal-title"></slot>
           </h5>
           <a class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true"><i class="mdi mdi-close text-dark"></i></span>
           </a>
         </div>
         <div class="modal-body">
