@@ -11,18 +11,25 @@
     </template>
     <template #modal-body>
       <div class="container-fluid position-relative">
-        <h3>View Count: {{keep.views}}</h3>
-        <h3>Kept Count: {{keep.kept}}</h3>
+        
         <div class="row">
-        <div class="col-md-6">
-          <img :src="keep.img" class="w-100 object-fit keepimg" :alt="keep.img" />
+        <div class="col-md-6 d-flex">
+          <img :src="keep.img" class="w-100 h-100 object-fit keepimg" :alt="keep.img" />
         </div>
-          <h1>hello</h1>
+        <div class="col-md-6 align-items-center flex-column justify-content-center d-flex">
+        <h3>View Count: {{keep.views}}</h3>
+        <h3>Kept Count: {{keep.kept}}</h3> 
+        <h3>Description: {{keep.description}}</h3>
+        
+        </div>
 
           <!-- <h3>{{ keep.name }}</h3> -->
           <!-- <p>{{ keep.description }}</p> -->
           <!-- <img :src="keep.img" class="img-fluid py-2" alt="" /> -->
-          <div></div>
+          <div>
+          </div>
+        </div>
+      </div>
           <div class="dropdown">
             <button
               class="btn btn-secondary dropdown-toggle"
@@ -38,8 +45,6 @@
               </li>
             </ul>
           </div>
-        </div>
-      </div>
     </template>
   </Modal>
 </template>

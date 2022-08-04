@@ -1,13 +1,17 @@
 <template>
 
-  <div class="masonry-frame">
     <KeepModal />
     <!-- <div class="row"> -->
       <!-- <div class="col-12"> -->
-     <button>hello</button>
-     <div v-for="k in keeps" :key="k.id">
-<Keep :keep="k" />
+  <div class="masonry-container">
+  <div>
+  <button class="btn btn-danger mdi mdi-delete" @click.prevent="deleteVaults">Delete vault</button>
+  </div>
+  <div>
+     <div v-for="k in keeps" class="p-4" :key="k.id">
+<Keep :keep="k" class="" />
      </div>
+  </div>
         <!-- <h5 class="card-title">{{ vault.keep }}</h5> -->
         <!-- <p class="card-text">{{ keep.description }}</p> -->
       <!-- </div> -->
@@ -74,19 +78,17 @@ export default {
           vaultKeeps: computed(() => AppState.vaultKeeps),
           keeps: computed(() => AppState.keeps),
           vault: computed(() => AppState.vaults),
+          vault: computed(() => AppState.activeVault),
             // vaultKeeps: computed(() => { AppState.vaultKeeps }),
        
             async deleteVaults() {
                 try {
                     if (await Pop.confirm()) {
-                        await vaultsService.deleteVaults(AppState.activeVault);
-                        Pop.toast("Vault gone");
-                        router.push({
-                            name: "profile",
-                            params: {
-                                id: props.activeVault.userId
-                            }
-                        });
+                        await vaultsService.getVaultById(route.params.id);
+                        await vaultsService.deleteVaults(route.params.id);
+                        router.push({ name: "Home" });
+                        Pop.toast("Vault deleted");
+                 
                     }
                 }
                 catch (error) {

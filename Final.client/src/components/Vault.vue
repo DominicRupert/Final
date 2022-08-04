@@ -54,9 +54,10 @@ export default {
         })
         try {
 
-          // if (props.vault.isPrivate && props.vault.creator.id !== AppState.account.Id) {
-          //   Pop.toast('You do not have access to this vault')
-          // }
+          if (props.vault.isPrivate && props.vault.creator.id !== AppState.account.id) {
+            Pop.toast('You do not have access to this vault')
+            router.push({ name: "Home" })
+          }
 
         }
         catch (error) {

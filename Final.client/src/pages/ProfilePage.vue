@@ -1,43 +1,32 @@
 <template>
-  <div class=" container">
-    
-    
+  <div class="container">
     <h1>Profile Page</h1>
     <img :src="activeProfile.picture" class="img-fluid" alt="" />
-      <h2>{{ profile.name }}</h2>
-       <div class="container ">
-        <div class="row">
-            <div class="col-md-6">
-                <NewVault />
-            </div>
-            <div class="col-md-6">
-
-
-                <CreateKeep />
-            </div>
+    <h2>{{ profile.name }}</h2>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <NewVault />
         </div>
-    </div>
-
-    </div>
- 
-<div class="masonry-container">
-
-  <div class="p-3" v-for="v in vaults" :key="v.id">
-        <Vault :vault="v" />
-</div>
+        <div class="col-md-6">
+          <CreateKeep />
+        </div>
       </div>
-  <div class="masonry-container">
+    </div>
+  </div>
 
-      
-      
-      
-      
-      <!-- <p>{{ profile.description }}</p> -->
+  <div class="masonry-container">
+    <div class="p-3" v-for="v in vaults" :key="v.id">
+      <Vault :vault="v" />
+    </div>
+  </div>
+  <div class="masonry-container">
+    <!-- <p>{{ profile.description }}</p> -->
     <div v-for="k in keeps" :key="k.id" class="p-3">
       <Keep :keep="k" />
-        </div>
-      </div>
-        <KeepModal />
+    </div>
+  </div>
+  <KeepModal />
 </template>
 
 
@@ -129,11 +118,9 @@ export default {
   // column-gap: 10px;
   div {
     break-inside: avoid;
-    }
-   @media only screen and (max-width: 600px) {
-     columns: 1;
-
-
-    }
+  }
+  @media only screen and (max-width: 600px) {
+    columns: 1;
+  }
 }
 </style>

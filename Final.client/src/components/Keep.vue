@@ -15,7 +15,7 @@
           @click.prevent="deleteKeep(keep.id)"
         ></button>
       </h3>
-      <div>
+      <div class="d-flex ">
         <img
           @click.stop="goToProfile"
           :src="keep.creator.picture"
@@ -51,9 +51,9 @@ export default {
     return {
       async setActive() {
         try {
-          AppState.keeps.views++;
+          // AppState.keeps.views++;
 
-          await keepsService.setActive(props.keep)
+          await keepsService.getKeep(props.keep.id)
 
 
 
@@ -79,7 +79,10 @@ export default {
           logger.log(keepId)
           if (await Pop.confirm("Are you sure you want to delete this keep?")) {
             await keepsService.deleteKeep(keepId)
+            Pop.toast("Keep deleted")
+            AppState
           }
+          
         }
         catch (error) {
           logger.error(error)
