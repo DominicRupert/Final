@@ -1,32 +1,18 @@
 <template>
   <form class="row g-3" @submit="createVaults()">
-    <div class="col-12">
-      <div class="col-md-6">
-        <label for="vault-name" class="form-label">New Vault Name</label>
-        <input
-          v-model="editable.name"
-          type="text"
-          class="form-control"
-          id="vault-name"
-        />
-      </div>
-      <div class="col-md-6">
-        <label for="vault-name" class="form-label">Vault description</label>
-        <input
-          v-model="editable.description"
-          type="text"
-          class="form-control"
-          id="vault-name"
-        />
-      </div>
+  <div class="col-12">
+
+    <div class="col-md-6">
+      <label for="vault-name" class="form-label">New Vault Name</label>
+      <input v-model="editable.name" type="text" class="form-control" id="vault-name">
     </div>
+    <div class="col-md-6">
+      <label for="vault-name" class="form-label">Vault description</label>
+      <input v-model="editable.description" type="text" class="form-control" id="vault-name">
+    </div>
+      </div>
     <div class="form-check">
-      <input
-        v-model="editable.isPrivate"
-        class="form-check-input"
-        type="checkbox"
-        id="gridCheck"
-      />
+      <input v-model="editable.isPrivate" class="form-check-input" type="checkbox" id="gridCheck">
       <label class="form-check-label" for="gridCheck">
         Make this vault private?
       </label>
@@ -82,7 +68,7 @@ export default {
             params: {
               id: newVault.id
             }
-
+           
           })
           Pop.toast("Vault created");
         } catch (error) {

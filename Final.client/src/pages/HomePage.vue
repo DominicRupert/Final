@@ -38,8 +38,8 @@ import { vaultsService } from '../services/VaultsService.js'
 import { vaultKeepsService } from '../services/VaultKeepsService.js'
 import { accountService } from '../services/AccountService.js'
 import { Modal } from 'bootstrap'
-import NewVault from '../components/NewVault.vue'
-import CreateKeep from '../components/CreateKeep.vue'
+// import NewVault from '../components/NewVault.vue'
+// import CreateKeep from '../components/CreateKeep.vue'
 export default {
     props: {
         keep: {
@@ -78,7 +78,7 @@ export default {
             keeps: computed(() => AppState.keeps)
         };
     },
-    components: { NewVault, CreateKeep }
+    // components: { NewVault, CreateKeep }
 }
 </script>
 
