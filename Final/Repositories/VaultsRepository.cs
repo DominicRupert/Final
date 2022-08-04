@@ -22,7 +22,7 @@ namespace Final.Repositories
         // }
         
 
-        internal List<Vault> Get()
+        internal List<Vault> GetByUser(string id)
         {
             string sql = @"
             SELECT 
@@ -41,7 +41,7 @@ namespace Final.Repositories
 
        
 
-        internal Vault Get(int id)
+        internal Vault GetById(int id)
         {
             string sql = @"
             SELECT 
@@ -107,6 +107,7 @@ namespace Final.Repositories
             _db.Execute(sql, new { id });
 
         }
+        
 
         internal List<VaultKeepModel> GetKeepsById(int id)
         {
@@ -142,5 +143,24 @@ namespace Final.Repositories
                 return vault;
             }, new { id }).ToList();
         }
+        internal Vault GetByProfile(string id, string userId)
+        {
+            string sql = @"
+            SELECT 
+            a.*,
+            v.*,
+            k.id AS keepId
+            FROM keeps k
+            JOIN vaults v ON k.vaultId = v.id
+            JOIN accounts a ON v.creatorId = a.id
+            WHERE v.creatorId = @id";
+            return _db.Query< Account, Vault, Vault>(sql, (a, v) =>
+            {
+                v.Creator = a;
+                return v;
+            }, new { id }).FirstOrDefault();
+        }
+
+
     }
 }

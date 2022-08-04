@@ -16,7 +16,19 @@ namespace Final.Services
         }
         internal VaultKeep Create(VaultKeep newVaultKeep)
         {
+            Vault original = GetById(id);
+            if(original.CreatorId != userId)
+            {
+                throw new Exception ("no")
+            }
             return _repo.Create(newVaultKeep);
+        }
+        private static void Owner(string creatorId, string userId)
+        {
+            if (creatorId != userId)
+            {
+                throw new Exception("no");
+            }
         }
 
       internal List<VaultKeepModel> GetVaultKeeps(int vaultId)
@@ -24,21 +36,27 @@ namespace Final.Services
             List<VaultKeepModel> keeps = _repo.GetVaultKeeps(vaultId);
             return keeps;
         }
-     
-
-        internal void Delete(int id, string userId)
+        private VaultKeep Get(int id)
         {
             VaultKeep found = _repo.Get(id);
             if (found == null)
             {
                 throw new Exception("Vault not found.");
             }
-            if (found.CreatorId != userId)
-            {
-                throw new Exception("You can only delete vaultkeeps that you created.");
-            }
-             _repo.Delete(id);
+            return found;
         }
+        
+     
+
+        internal void Delete(int id, string userId)
+        {
+            VaultKeep found = Get(id);
+            Owner(found.CreatorId, userId);
+            _repo.Delete(id);
+        }
+        
+
+        
         
     }
 }

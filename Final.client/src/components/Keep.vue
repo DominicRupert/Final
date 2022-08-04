@@ -14,6 +14,11 @@
           class="mdi mdi-delete btn text-danger btn-dark"
           @click.prevent="deleteKeep(keep.id)"
         ></button>
+        <!-- <button
+          v-if="keep.creator.id == account.id"
+          class="mdi mdi-delete btn text-danger btn-success"
+          @click.prevent="removeKeep(keep.id)"
+        ></button> -->
       </h3>
       <div class="d-flex ">
         <img
@@ -34,6 +39,7 @@ import { Modal } from 'bootstrap'
 import { logger } from '../utils/Logger.js'
 import { AppState } from '../AppState.js'
 import { keepsService } from '../services/KeepsService.js'
+import { vaultKeepsService } from '../services/VaultKeepsService.js'
 
 import { useRouter } from 'vue-router'
 import Pop from '../utils/Pop.js'
@@ -80,6 +86,21 @@ export default {
           if (await Pop.confirm("Are you sure you want to delete this keep?")) {
             await keepsService.deleteKeep(keepId)
             Pop.toast("Keep deleted")
+            AppState
+          }
+          
+        }
+        catch (error) {
+          logger.error(error)
+        }
+
+      }
+      ,
+      async removeKeep(id) {
+        try {
+          if (await Pop.confirm("Are you sure you want to remove this keep?")) {
+            await vaultKeepsService.removeKeeps(AppState.activeVault.id, id)
+            Pop.toast("Keep removed")
             AppState
           }
           

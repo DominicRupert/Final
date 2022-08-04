@@ -60,25 +60,18 @@ namespace Final.Controllers
         }
 
         [HttpGet("{id}/vaults")]
-        public ActionResult<List<Vault>> GetVaultsByUserId(string id)
+        public async Task< ActionResult<List<Vault>>> Get(string id)
         {
             try
             {
-                List<Vault> vaults = _vs.GetVaultsByUserId(id);
-                return Ok(vaults);
-              
-                
+                Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+                List<Vault> vault = _vs.GetByProfile(id, userInfo?.Id);
+             
+                return Ok(vault);
             }
             catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
         }
-
-
-        
-
-        
-        
-    }
-}
+    }}

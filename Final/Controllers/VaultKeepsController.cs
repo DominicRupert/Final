@@ -28,13 +28,15 @@ namespace Final.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult<VaultKeep>> Create([FromBody] VaultKeep vaultKeep)
+        public async Task<ActionResult<VaultKeep>> Create([FromBody] VaultKeep newVaultKeep)
         {
             try
             {
                 Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
-                vaultKeep.CreatorId = userInfo.Id;
-                return Ok(_vks.Create(vaultKeep));
+                newVaultKeep.CreatorId = userInfo.Id;
+                VaultKeep vaultKeep = _vks.Create(newVaultKeep);
+                // newVaultKeep.Creator = userInfo;
+                return Ok(newVaultKeep);
             }
             catch (Exception e)
             {
@@ -48,8 +50,9 @@ namespace Final.Controllers
             try
             {
                 Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+               
                 _vks.Delete(id, userInfo.Id);
-                return Ok();
+                return Ok("deleted");
             }
             catch (Exception e)
             {

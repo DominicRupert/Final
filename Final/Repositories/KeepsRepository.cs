@@ -27,7 +27,7 @@ namespace Final.Repositories
             FROM keeps k
             JOIN accounts a ON a.id = k.creatorId";
 
-            return _db.Query<Account, Keep, Keep>(sql, (a, keep)=>
+            return _db.Query<Account, Keep, Keep>(sql, (a, keep) =>
             {
                 keep.Creator = a;
                 return keep;
@@ -36,7 +36,7 @@ namespace Final.Repositories
 
         internal Keep Get(int id)
         {
-               string sql = @"
+            string sql = @"
                update keeps k
                set
                k.views = k.views + 1
@@ -48,7 +48,7 @@ namespace Final.Repositories
             JOIN accounts a ON a.id = k.creatorId
             WHERE k.id = @id";
 
-            return _db.Query<Account, Keep, Keep>(sql, (a, keep)=>
+            return _db.Query<Account, Keep, Keep>(sql, (a, keep) =>
             {
                 keep.Creator = a;
                 return keep;
@@ -78,13 +78,13 @@ namespace Final.Repositories
             FROM keeps k
             JOIN accounts a ON k.creatorId = a.id
             WHERE k.creatorId = @creatorId";
-            
 
-            return _db.Query<Keep, Account, Keep>(sql, (k, a)=>
+
+            return _db.Query<Keep, Account, Keep>(sql, (k, a) =>
             {
                 k.Creator = a;
                 return k;
-            }, new {creatorId}).ToList<Keep>();
+            }, new { creatorId }).ToList<Keep>();
 
         }
 
@@ -96,7 +96,7 @@ namespace Final.Repositories
             
            WHERE id = @Id";
             _db.Execute(sql, keepData);
-        
+
         }
 
         internal List<Keep> GetMyKeeps(string id)
@@ -108,7 +108,7 @@ namespace Final.Repositories
             FROM keeps k
             JOIN accounts a ON k.creatorId = a.id
             WHERE creatorId = @id";
-            return _db.Query<Account, Keep, Keep>(sql, (a, keep)=>
+            return _db.Query<Account, Keep, Keep>(sql, (a, keep) =>
             {
                 keep.Creator = a;
                 return keep;
@@ -124,7 +124,7 @@ namespace Final.Repositories
             from keeps k
             join accounts a on k.creatorId = a.id
             where k.id = @id";
-            return _db.Query<Keep, Account, Keep>(sql, (keep, a)=>
+            return _db.Query<Keep, Account, Keep>(sql, (keep, a) =>
             {
                 keep.Creator = a;
                 return keep;
@@ -147,10 +147,10 @@ namespace Final.Repositories
         //         vkkmv.Creator = a;
         //         return vkkmv;
         //     }, new { id }).ToList();
-            
+
 
         // }
-        internal List <Vault> GetMyVaults(string creatorId)
+        internal List<Vault> GetMyVaults(string creatorId)
         {
             string sql = @"
             SELECT 
@@ -159,11 +159,11 @@ namespace Final.Repositories
             FROM vaults v
             JOIN accounts a ON v.creatorId = a.id
             WHERE a.id = @creatorId";
-            return _db.Query<Vault, Account, Vault>(sql, (vault, a)=>
+            return _db.Query<Vault, Account, Vault>(sql, (vault, a) =>
             {
                 vault.Creator = a;
                 return vault;
-            }, new {creatorId}).ToList();
+            }, new { creatorId }).ToList();
         }
 
         // internal List<VaultKeepModel> GetByVaultId(int id)

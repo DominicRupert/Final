@@ -33,7 +33,7 @@ namespace Final.Controllers
             try
             {
                 // Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
-                List<Vault> vaults = _vs.Get(userId);
+                List<Vault> vaults = _vs.GetByUser(userId);
                 return Ok(vaults);
             }
             catch (Exception e)
@@ -49,8 +49,8 @@ namespace Final.Controllers
             try
             {
                 Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
-                Vault vault = _vs.Get(id);
-                if(vault.IsPrivate == true && vault.CreatorId != userInfo.Id)
+                Vault vault = _vs.GetById(id);
+                if(vault.IsPrivate && vault.CreatorId != userInfo.Id)
                 {
                     return Forbid();
                 }
@@ -108,7 +108,7 @@ namespace Final.Controllers
             try
             {
                 Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
-                Vault vault = _vs.Get(id);
+                Vault vault = _vs.GetById(id);
                 if (vault.CreatorId != userInfo.Id)
                 {
                     return BadRequest("You do not have permission to delete this vault");
@@ -123,12 +123,17 @@ namespace Final.Controllers
         }
 
         [HttpGet("{vaultId}/keeps")]
+
         public async Task<ActionResult<List<VaultKeepModel>>> GetVaultKeeps(int vaultId)
         {
             try
             {
-                Vault vault = _vs.Get(vaultId);
+                Vault vault = _vs.GetById(vaultId);
                 Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+                if (vault.IsPrivate && vault.CreatorId != userInfo?.Id)
+                {
+                    return Forbid();
+                }
                 List<VaultKeepModel> keeps = _vks.GetVaultKeeps(vaultId);
                 return Ok(keeps);
             }
