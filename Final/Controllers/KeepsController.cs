@@ -106,7 +106,7 @@ namespace Final.Controllers
                 {
                     throw new Exception("You can only delete keeps that you created.");
                 }
-                return Ok(deleted);
+                return Ok("its gone");
 
 
             }

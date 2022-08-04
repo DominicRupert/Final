@@ -51,9 +51,12 @@ namespace Final.Services
             original.Name = keepData.Name ?? original.Name;
             original.Description = keepData.Description ?? original.Description;
             original.Img = keepData.Img ?? original.Img;
+            original.Views = keepData.Views;
+            original.Kept = keepData.Kept;
+
 
             _repo.Edit(original);
-            return original;
+            return Get( original.Id);
         }
 
         internal List<Keep> GetByCreatorId(string id)

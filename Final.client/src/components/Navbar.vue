@@ -2,8 +2,15 @@
   <nav class="navbar navbar-expand-lg navbar-dark bg-secondary px-3">
     <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
       <div class="d-flex flex-column align-items-center">
+      <button class="mdi mdi-home btn btn-outline-dark"></button>
       </div>
     </router-link>
+    <router-link class="navbar-brand d-flex" :to="{ name: 'Profile', params: {id: account.id} }">
+      <div class="d-flex flex-column align-items-center">
+      <button class="mdi mdi-head btn btn-outline-dark"></button>
+      </div>
+    </router-link>
+  
     <button
       class="navbar-toggler"
       type="button"
@@ -28,9 +35,14 @@
 </template>
 
 <script>
+import { AppState } from '../AppState.js';
+import { computed, onMounted, reactive, ref } from 'vue'
 export default {
   setup() {
-    return {};
+    return {
+      profile: computed(() => AppState.profile),
+      account: computed(() => AppState.account),
+    };
   },
 };
 </script>

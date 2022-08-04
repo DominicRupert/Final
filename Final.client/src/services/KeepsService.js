@@ -4,10 +4,11 @@ import { api } from "./AxiosService.js";
 import { profilesService } from "../services/ProfilesService.js";
 
 class KeepsService {
-  async createKeep(body) {
+  async createKeep(newKeep) {
     try {
-      const res = await api.post("api/keeps", body);
-      AppState.keeps.push(res.data);
+      const res = await api.post("api/keeps", newKeep);
+      logger.log("[createKeep]", res.data);
+      AppState.keeps.unshift(res.data);
     } catch (error) {
       logger.error(error);
     }
@@ -51,9 +52,7 @@ class KeepsService {
     try {
       const res = await api.delete("api/keeps/" + keepId);
       logger.log("Keep deleted", res.data);
-      AppState.accountKeeps = AppState.accountKeeps.filter(
-        (keep) => keep.id !== keepId
-      );
+ 
     } catch (error) {
       logger.error(error);
     }

@@ -1,20 +1,22 @@
 <template>
-  <Modal id="keep-modal">
+  <Modal id="keep-modal" class="keepmodal">
     <template #modal-title
       >{{ keep.name }} by: {{ keep.creator?.name }}
-    </template>
-    <template #modal-body>
-      <div class="container-fluid">
-        <h3>View Count: {{keep.views}}</h3>
-        <h3>Kept Count: {{keep.kept}}</h3>
       <img
         @click="goToProfile"
         :src="keep.creator?.picture"
-        class="pfp img-fluid p-0 rounded-pill selectable"
+        class="pfp selectable object-fit rounded-circle"
         alt=""
       />
+    </template>
+    <template #modal-body>
+      <div class="container-fluid position-relative">
+        <h3>View Count: {{keep.views}}</h3>
+        <h3>Kept Count: {{keep.kept}}</h3>
         <div class="row">
-          <img :src="keep.img" class="img-fluid" :alt="keep.img" />
+        <div class="col-md-6">
+          <img :src="keep.img" class="w-100 object-fit keepimg" :alt="keep.img" />
+        </div>
           <h1>hello</h1>
 
           <!-- <h3>{{ keep.name }}</h3> -->
@@ -61,14 +63,15 @@ export default {
     const route = useRoute()
     return {
       
-      async setActive() {
-        try {
-          await keepsService.setActive(props.keep);
-        }
-        catch (error) {
-          logger.error(error);
-        }
-      },
+      // async setActive() {
+      //   try {
+      //     AppState.keeps.views++;
+      //     await keepsService.getKeep(props.keep);
+      //   }
+      //   catch (error) {
+      //     logger.error(error);
+      //   }
+      // },
       // activeKeep,
       // keep: reactive(route.params.keep),
       // keep: computed(() => AppState.keeps),
@@ -109,7 +112,12 @@ export default {
 
 
 <style lang="scss" scoped>
-.pfp {
+.keepmodal{
  
 }
+.pfp{
+   height: 200px;
+  width: 200px;
+}
+.keepimg{min-height: 70vh;}
 </style>

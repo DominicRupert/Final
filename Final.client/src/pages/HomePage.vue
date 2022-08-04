@@ -112,6 +112,7 @@ export default {
     }
 }
 
+
 .masonry-container {
     columns: 4;
 

@@ -1,19 +1,29 @@
 <template>
-
-  <div class="selectable card" @click="setActive" data-bs-target="#keep-modal" data-bs-toggle="modal">
-
-
-    <img :src="keep.img" class="img-fluid card-img" alt="">
+  <div
+    class="selectable card"
+    @click="setActive"
+    data-bs-target="#keep-modal"
+    data-bs-toggle="modal"
+  >
+    <img :src="keep.img" class="img-fluid card-img" alt="" />
     <div class="card-img-overlay">
-
-      <h3 class="card-title txt text-white">{{ keep.name }}
+      <h3 class="card-title txt text-white justify-content-between d-flex">
+        {{ keep.name }}
+        <button
+          v-if="keep.creator.id == account.id"
+          class="mdi mdi-delete btn text-danger btn-dark"
+          @click.prevent="deleteKeep(keep.id)"
+        ></button>
       </h3>
+      <div>
+        <img
+          @click.stop="goToProfile"
+          :src="keep.creator.picture"
+          class="p-0 rounded-circle pfp selectable"
+          alt=""
+        />
+      </div>
     </div>
-
-  </div>
-  <div>
-
-    <img @click.stop="goToProfile" :src="keep.creator.picture" class=" img-fluid p-0 rounded-pill selectable" alt="" />
   </div>
 </template>
 
@@ -41,6 +51,8 @@ export default {
     return {
       async setActive() {
         try {
+          AppState.keeps.views++;
+
           await keepsService.setActive(props.keep)
 
 
@@ -58,10 +70,22 @@ export default {
       pkeeps: computed(() => AppState.profileKeeps),
 
       // akeeps: computed(() => AppState.accountKeeps),
-      goToProfile() {
+      async goToProfile() {
         Modal.getOrCreateInstance(document.getElementById("keep-modal")).hide()
         router.push({ name: 'Profile', params: { id: props.keep.creatorId } })
       },
+      async deleteKeep(keepId) {
+        try {
+          logger.log(keepId)
+          if (await Pop.confirm("Are you sure you want to delete this keep?")) {
+            await keepsService.deleteKeep(keepId)
+          }
+        }
+        catch (error) {
+          logger.error(error)
+        }
+
+      }
     }
   }
 }
@@ -71,6 +95,9 @@ export default {
 <style lang="scss" scoped>
 h3 {
   text-shadow: 4px 4px 4px black !important;
-
+}
+.pfp {
+  height: 50px;
+  width: 50px;
 }
 </style>
