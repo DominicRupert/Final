@@ -21,15 +21,21 @@
         <h3>Kept Count: {{keep.kept}}</h3> 
         <h3>Description: {{keep.description}}</h3>
         
+          <div>
+             <button
+        v-if="keep.creator.id == account.id"
+        class="mdi mdi-delete btn text-danger btn-success"
+        @click.stop="deleteVaultKeeps(vault.id)"
+      >Remove from vault?</button>
+          </div>
         </div>
 
           <!-- <h3>{{ keep.name }}</h3> -->
           <!-- <p>{{ keep.description }}</p> -->
           <!-- <img :src="keep.img" class="img-fluid py-2" alt="" /> -->
-          <div>
-          </div>
         </div>
       </div>
+      <div class="justify-content-center d-flex col-6">
           <div class="dropdown">
             <button
               class="btn btn-secondary dropdown-toggle"
@@ -41,10 +47,11 @@
             </button>
             <ul class="dropdown-menu">
               <li v-for="v in vaults" :key="v.id">
-                <a @click="addToVault(v.id)">{{ v.name }}</a>
+                <a @click="addToVault(v.id) " class="dropdown-item">{{ v.name }}</a>
               </li>
             </ul>
           </div>
+      </div>
     </template>
   </Modal>
 </template>
@@ -62,6 +69,15 @@ import { useRoute } from 'vue-router'
 import { logger } from '../utils/Logger.js'
 import Pop from '../utils/Pop.js'
 export default {
+  props: {
+    keep: {
+      type: Object,
+    },
+    vaultkeep: {
+      type: Object,
+    }
+  },
+
  
   setup(props) {
     const router = useRouter();
@@ -87,6 +103,7 @@ export default {
       account: computed(() => AppState.account),
       keeps: computed(() => AppState.profileKeeps),
       vaultKeep: computed(() => AppState.vaultKeeps),
+      vault: computed(() => AppState.activeVault),
       async addToVault(id) {
         try {
           await keepsService.addToVault(AppState.activeKeep.id, id );
@@ -102,6 +119,20 @@ export default {
         Modal.getOrCreateInstance(document.getElementById("keep-modal")).hide();
         router.push({ name: "Profile", params: { id: AppState.activeKeep?.creatorId } });
       },
+      async deleteVaultKeeps() {
+        try {
+          if (await Pop.confirm("Are you sure you want to remove this keep?")) {
+            await vaultKeepsService.removeKeep(props.vaultkeep.id)
+            Pop.toast("Keep removed")
+
+          }
+
+        }
+        catch (error) {
+          logger.error(error)
+        }
+
+      }
     //  async createVaultKeeps(){
     //   try {
     //     await vaultKeepsService.createVaultKeeps(props.vaultKeep);

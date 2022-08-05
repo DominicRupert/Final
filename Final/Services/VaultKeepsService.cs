@@ -45,11 +45,14 @@ namespace Final.Services
         
      
 
-        internal void Delete(int id, string userId)
+        internal void Delete(string id, string userId)
         {
-            VaultKeep found = Get(id);
-            Owner(found.CreatorId, userId);
-            _repo.Delete(id);
+            VaultKeep found = _repo.GetById(id);
+            if(found.CreatorId != userId)
+            {
+                throw new Exception("You can't delete this VaultKeep");
+            }
+            _repo.Delete(found.Id);
         }
         
 

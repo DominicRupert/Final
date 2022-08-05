@@ -15,9 +15,11 @@
     </div>
   </div>
 
-  <div class="masonry-container">
-    <div class="p-3" v-for="v in vaults" :key="v.id">
+  <div class="masonry-container-vault">
+    <div class="d-flex justify-content-center py-1" v-for="v in vaults" :key="v.id">
+    <div class="col-2">
       <Vault :vault="v" />
+    </div>
     </div>
   </div>
   <div class="masonry-container">
@@ -114,6 +116,17 @@ export default {
 <style lang="scss" scoped>
 .masonry-container {
   columns: 4;
+
+  // column-gap: 10px;
+  div {
+    break-inside: avoid;
+  }
+  @media only screen and (max-width: 600px) {
+    columns: 1;
+  }
+}
+.masonry-container-vault {
+  columns: 6;
 
   // column-gap: 10px;
   div {

@@ -55,6 +55,15 @@ namespace Final.Repositories
 
     }
 
+    internal VaultKeep GetById(string id)
+    {
+        string sql = @"
+        SELECT
+        *
+        FROM vaultkeeps
+        WHERE id = @id";
+        return _db.QueryFirstOrDefault<VaultKeep>(sql, new { id });
+    }
     internal List<VaultKeepModel> GetVaultKeeps(int vaultId)
     {
         string sql = @"
@@ -66,12 +75,13 @@ namespace Final.Repositories
         JOIN keeps k ON vk.keepId = k.id
         JOIN accounts a ON k.creatorId = a.id 
         WHERE vk.vaultId = @vaultId";
-        return _db.Query<VaultKeepModel, Account, VaultKeepModel>(sql, (vkkmv, a) =>
+        return _db.Query<VaultKeepModel, Account, VaultKeepModel>(sql, (vkool, a) =>
         {
-            vkkmv.Creator = a;
+            vkool.Creator = a;
            
-            return vkkmv;
+            return vkool;
         }, new { vaultId }).ToList();
         
     }
+
 }}

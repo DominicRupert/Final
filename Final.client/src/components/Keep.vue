@@ -7,27 +7,23 @@
   >
     <img :src="keep.img" class="img-fluid card-img" alt="" />
     <div class="card-img-overlay">
+    <div class="d-flex justify-content-around align-items-end justify-content">
       <h3 class="card-title txt text-white justify-content-between d-flex">
         {{ keep.name }}
-        <button
-          v-if="keep.creator.id == account.id"
-          class="mdi mdi-delete btn text-danger btn-dark"
-          @click.prevent="deleteKeep(keep.id)"
-        ></button>
-        <button
-          v-if="keep.creator.id == account.id"
-          class="mdi mdi-delete btn text-danger btn-success"
-          @click.stop="deleteVaultKeeps"
-        ></button>
       </h3>
-      <div class="d-flex ">
+      <button
+        v-if="keep.creator.id == account.id"
+        class="mdi mdi-delete btn text-danger btn-dark"
+        @click.stop="deleteKeep(keep.id)"
+      ></button>
+   
         <img
           @click.stop="goToProfile"
           :src="keep.creator.picture"
           class="p-0 rounded-circle pfp selectable"
           alt=""
         />
-      </div>
+    </div>
     </div>
   </div>
 </template>
@@ -51,6 +47,7 @@ export default {
       type: Object,
       required: true
     }
+    
   },
   setup(props) {
     const router = useRouter()
@@ -60,6 +57,7 @@ export default {
           // AppState.keeps.views++;
 
           await keepsService.getKeep(props.keep.id)
+          
 
 
 
@@ -88,9 +86,9 @@ export default {
           if (await Pop.confirm("Are you sure you want to delete this keep?")) {
             await keepsService.deleteKeep(keepId)
             Pop.toast("Keep deleted")
-            
+
           }
-          
+
         }
         catch (error) {
           logger.error(error)
@@ -98,20 +96,7 @@ export default {
 
       }
       ,
-      async deleteVaultKeeps() {
-        try {
-          if (await Pop.confirm("Are you sure you want to remove this keep?")) {
-            await vaultKeepsService.removeKeep(props.keep.id)
-            Pop.toast("Keep removed")
-            
-          }
-          
-        }
-        catch (error) {
-          logger.error(error)
-        }
-
-      }
+      
     }
   }
 }

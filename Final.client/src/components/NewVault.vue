@@ -1,5 +1,5 @@
 <template>
-  <form class="row g-3" @submit="createVaults()">
+  <form class="row g-3 text-white" @submit="createVaults()">
   <div class="col-12">
 
     <div class="col-md-6">
@@ -63,13 +63,7 @@ export default {
       async createVaults() {
         try {
           const newVault = await vaultsService.createVaults(editable.value)
-          router.push({
-            name: "Vault",
-            params: {
-              id: newVault.id
-            }
-           
-          })
+          
           Pop.toast("Vault created");
         } catch (error) {
           logger.error(error);

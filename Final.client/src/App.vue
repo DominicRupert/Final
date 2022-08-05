@@ -27,5 +27,8 @@ export default {
 </script>
 <style lang="scss">
 @import "./assets/scss/main.scss";
+main{
+  background-color: black;
+}
 
 </style>

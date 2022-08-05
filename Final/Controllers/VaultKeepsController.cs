@@ -49,7 +49,7 @@ namespace Final.Controllers
         }
         [HttpDelete("{id}")]
         [Authorize]
-        public async Task<ActionResult<VaultKeep>> Delete(int id)
+        public async Task<ActionResult<VaultKeep>> Delete(string id)
         {
             try
             {

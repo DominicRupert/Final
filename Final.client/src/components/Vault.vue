@@ -67,10 +67,10 @@ export default {
       // vault: computed(() => AppState.vaults),
       // vault: computed(() => AppState.vaults.find(v => v.id === props.vault.id)),
 
-      // account: computed(() => AppState.account),
+      account: computed(() => AppState.account),
       profile: computed(() => AppState.profile),
       vaults: computed(() => AppState.profileVaults),
-      // keeps: computed(() => AppState.profileKeeps),
+      keeps: computed(() => AppState.profileKeeps),
 
       // avaults: computed(() => AppState.),
 

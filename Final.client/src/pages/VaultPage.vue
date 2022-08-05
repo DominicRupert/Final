@@ -1,12 +1,13 @@
 <template>
-
+<div class="container d-flex justify-content-center">
     <KeepModal />
     <!-- <div class="row"> -->
       <!-- <div class="col-12"> -->
-  <div class="masonry-container">
   <div>
   <button class="btn btn-danger mdi mdi-delete" @click.prevent="deleteVaults">Delete vault</button>
   </div>
+</div>
+  <div class="masonry-container">
   <div>
      <div v-for="k in keeps" class="p-4" :key="k.id">
 <Keep :keep="k" class="" />
@@ -134,4 +135,6 @@ export default {
 
     }
 }
+
+
 </style>
