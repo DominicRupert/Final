@@ -1,5 +1,5 @@
 <template>
-  <form class="row g-3 text-white">
+  <form class="row g-3 py-3 text-white">
     <div class="col-md-6">
       <label for="" class="form-label">New Keep Name</label>
       <input

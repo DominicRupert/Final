@@ -40,7 +40,7 @@ namespace Final.Repositories
                update keeps k
                set
                k.views = k.views + 1
-               where k.id = @id;
+               where k.id = @Id;
             SELECT 
             a.*,
             k.*

@@ -56,6 +56,8 @@ class KeepsService {
   async deleteKeep(keepId) {
     try {
       const res = await api.delete("api/keeps/" + keepId);
+      logger.log("[deleteKeep]", res.data);
+      AppState.keeps.unshift = res.data;
      
  
     } catch (error) {

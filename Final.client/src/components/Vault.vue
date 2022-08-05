@@ -1,11 +1,11 @@
 <template>
 
-  <button class="btn btn-dark " @click="goToVault">
-    <h5>
+  <button class="btn d-flex flex-column btn-dark " @click="goToVault">
+    <p>
 
       {{ vault.name }}
 
-    </h5>
+    </p>
     <div>
     </div>
     <div>{{ vault.creator?.name }}</div>

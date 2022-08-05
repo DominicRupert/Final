@@ -14,10 +14,12 @@
       </div>
     </div>
   </div>
+  <div class="border border-white p-1 bg-white my-2">
+  </div>
 
   <div class="masonry-container-vault">
-    <div class="d-flex justify-content-center py-1" v-for="v in vaults" :key="v.id">
-    <div class="col-2">
+    <div class="d-flex justify-content-around py-1" v-for="v in vaults" :key="v.id">
+    <div class="col-md-6">
       <Vault :vault="v" />
     </div>
     </div>
@@ -126,8 +128,9 @@ export default {
   }
 }
 .masonry-container-vault {
-  columns: 6;
+  columns: 4;
 
+    break-inside: avoid;
   // column-gap: 10px;
   div {
     break-inside: avoid;

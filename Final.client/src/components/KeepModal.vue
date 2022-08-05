@@ -1,57 +1,71 @@
 <template>
   <Modal id="keep-modal" class="keepmodal">
     <template #modal-title
-      >{{ keep.name }} by: {{ keep.creator?.name }}
+      >
+      <div class="d-flex justify-content-between align-items-center ">
+      {{ keep.name }} by: {{ keep.creator?.name }}
       <img
         @click="goToProfile"
         :src="keep.creator?.picture"
         class="pfp selectable object-fit rounded-circle"
         alt=""
       />
+      </div> 
     </template>
     <template #modal-body>
       <div class="container-fluid position-relative">
-        
         <div class="row">
-        <div class="col-md-6 d-flex">
-          <img :src="keep.img" class="w-100 h-100 object-fit keepimg" :alt="keep.img" />
+          <div class="col-md-6 d-flex flex-column">
+           <div class="dropdown d-flex justify-content-center">
+          <button
+            class="btn btn-primary mb-3 dropdown-toggle"
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Add to Vault
+          </button>
+          <ul class="dropdown-menu">
+            <li v-for="v in vaults" :key="v.id">
+              <a @click="addToVault(v.id)" class="dropdown-item">{{
+                v.name
+              }}</a>
+            </li>
+          </ul>
         </div>
-        <div class="col-md-6 align-items-center flex-column justify-content-center d-flex">
-        <h3>View Count: {{keep.views}}</h3>
-        <h3>Kept Count: {{keep.kept}}</h3> 
-        <h3>Description: {{keep.description}}</h3>
-        
-          <div>
-             <button
-        v-if="keep.creator.id == account.id"
-        class="mdi mdi-delete btn text-danger btn-success"
-        @click.stop="deleteVaultKeeps(vault.id)"
-      >Remove from vault?</button>
+        <div>
+            <img
+              :src="keep.img"
+              class="w-100 h-100 object-fit keepimg"
+              :alt="keep.img"
+            />
           </div>
         </div>
+          <div
+            class="
+              col-md-6
+              align-items-center
+              flex-column
+              justify-content-center
+              d-flex
+            "
+          >
+            <h3>View Count: {{ keep.views }}</h3>
+            <h3>Kept Count: {{ keep.kept }}</h3>
+            <h3>Description: {{ keep.description }}</h3>
 
-          <!-- <h3>{{ keep.name }}</h3> -->
-          <!-- <p>{{ keep.description }}</p> -->
-          <!-- <img :src="keep.img" class="img-fluid py-2" alt="" /> -->
+            <div>
+              <button
+                class="mdi mdi-delete btn text-danger btn-success"
+                @click.stop="deleteVaultKeeps(keep.id)"
+              >
+                Remove from vault?
+              </button>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="justify-content-center d-flex col-6">
-          <div class="dropdown">
-            <button
-              class="btn btn-secondary dropdown-toggle"
-              type="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              Add to Vault
-            </button>
-            <ul class="dropdown-menu">
-              <li v-for="v in vaults" :key="v.id">
-                <a @click="addToVault(v.id) " class="dropdown-item">{{ v.name }}</a>
-              </li>
-            </ul>
-          </div>
-      </div>
+  
     </template>
   </Modal>
 </template>
@@ -73,30 +87,19 @@ export default {
     keep: {
       type: Object,
     },
-    vaultkeep: {
+    vaultKeep: {
       type: Object,
     }
   },
 
- 
+
   setup(props) {
     const router = useRouter();
     const route = useRoute()
     return {
-      
-      // async setActive() {
-      //   try {
-      //     AppState.keeps.views++;
-      //     await keepsService.getKeep(props.keep);
-      //   }
-      //   catch (error) {
-      //     logger.error(error);
-      //   }
-      // },
-      // activeKeep,
-      // keep: reactive(route.params.keep),
-      // keep: computed(() => AppState.keeps),
-      // vaults: computed(() => AppState.vaults),
+
+      keep: reactive(route.params.keep),
+
       keep: computed(() => AppState.activeKeep),
       vaults: computed(() => AppState.myVaults),
       profile: computed(() => AppState.profile),
@@ -106,42 +109,29 @@ export default {
       vault: computed(() => AppState.activeVault),
       async addToVault(id) {
         try {
-          await keepsService.addToVault(AppState.activeKeep.id, id );
+          await keepsService.addToVault(AppState.activeKeep.id, id);
           Pop.toast("Keep added to vault", "success");
         }
         catch (error) {
           logger.error(error);
         }
       },
-
-      // vault: computed(() => AppState.vaults),
       goToProfile() {
         Modal.getOrCreateInstance(document.getElementById("keep-modal")).hide();
         router.push({ name: "Profile", params: { id: AppState.activeKeep?.creatorId } });
       },
-      async deleteVaultKeeps() {
+      async deleteVaultKeeps(keepId) {
         try {
           if (await Pop.confirm("Are you sure you want to remove this keep?")) {
-            await vaultKeepsService.removeKeep(props.vaultkeep.id)
+            await vaultKeepsService.removeKeep(keepId);
             Pop.toast("Keep removed")
-
           }
-
         }
         catch (error) {
           logger.error(error)
         }
 
       }
-    //  async createVaultKeeps(){
-    //   try {
-    //     await vaultKeepsService.createVaultKeeps(props.vaultKeep);
-    //   }
-    //   catch (error) {
-    //     logger.error(error);
-    //   }
-        
-    //  }
     };
   },
 }
@@ -149,12 +139,18 @@ export default {
 
 
 <style lang="scss" scoped>
-.keepmodal{
- 
+.keepmodal {
 }
-.pfp{
-   height: 200px;
-  width: 200px;
+.pfp {
+  height: 50px;
+  width: 50px;
 }
-.keepimg{min-height: 70vh;}
+.keepimg {
+  min-height: 50%;
+  @media screen and (max-width: 768px) {
+    min-height: 100%;
+  }
+    
+  }
+
 </style>

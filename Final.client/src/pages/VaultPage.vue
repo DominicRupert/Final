@@ -78,14 +78,18 @@ export default {
         return {
           vaultKeeps: computed(() => AppState.vaultKeeps),
           keeps: computed(() => AppState.keeps),
-          vault: computed(() => AppState.vaults),
-          vault: computed(() => AppState.activeVault),
+          vaults: computed(() => AppState.vaults),
+         activeVaults: computed(() => AppState.activeVault),
+
             // vaultKeeps: computed(() => { AppState.vaultKeeps }),
        
-            async deleteVaults() {
+            async deleteVaults(vaultId) {
                 try {
+                    if(AppState.activeVault.creator.id !== AppState.account.id) {
+                        Pop.toast("You can only delete your own vaults");
+                    }
                     if (await Pop.confirm()) {
-                        await vaultsService.getVaultById(route.params.id);
+                        // await vaultsService.getVaultById(route.params.id);
                         await vaultsService.deleteVaults(route.params.id);
                         router.push({ name: "Home" });
                         Pop.toast("Vault deleted");

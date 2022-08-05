@@ -1,5 +1,5 @@
 <template>
-  <form class="row g-3 text-white" @submit="createVaults()">
+  <form class="row g-3 py-3 text-white" @submit="createVaults()">
   <div class="col-12">
 
     <div class="col-md-6">
@@ -11,7 +11,7 @@
       <input v-model="editable.description" type="text" class="form-control" id="vault-name">
     </div>
       </div>
-    <div class="form-check">
+    <div class="form-check ms-4">
       <input v-model="editable.isPrivate" class="form-check-input" type="checkbox" id="gridCheck">
       <label class="form-check-label" for="gridCheck">
         Make this vault private?

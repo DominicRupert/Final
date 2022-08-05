@@ -6,29 +6,28 @@
     data-bs-toggle="modal"
   >
     <img :src="keep.img" class="img-fluid card-img" alt="" />
-    <div class="card-img-overlay">
-    <div class="d-flex justify-content-around align-items-end justify-content">
-      <h3 class="card-title txt text-white justify-content-between d-flex">
-        {{ keep.name }}
-      </h3>
-      <button
-        v-if="keep.creator.id == account.id"
-        class="mdi mdi-delete btn text-danger btn-dark"
-        @click.stop="deleteKeep(keep.id)"
-      ></button>
-   
+    <div class="card-img-overlay d-flex justify-content-around align-items-end flex-row">
+  
+        <h3 class="card-title txt text-white justify-content-between d-flex">
+          {{ keep.name }}
+        </h3>
+        <button
+          class="mdi mdi-delete btn text-danger btn-dark d-flex align-items-end mb-2"
+          v-if="keep.creator.id == account.id"
+          @click.stop="deleteKeep(keep.id)"
+        ></button>
+      <button class="btn d-flex align-items-end">
+
         <img
           @click.stop="goToProfile"
           :src="keep.creator.picture"
           class="p-0 rounded-circle pfp selectable"
           alt=""
         />
-    </div>
+      </button>
     </div>
   </div>
 </template>
-
-
 <script>
 import { computed, onMounted } from 'vue'
 import { Modal } from 'bootstrap'
@@ -36,33 +35,21 @@ import { logger } from '../utils/Logger.js'
 import { AppState } from '../AppState.js'
 import { keepsService } from '../services/KeepsService.js'
 import { vaultKeepsService } from '../services/VaultKeepsService.js'
-
 import { useRouter } from 'vue-router'
 import Pop from '../utils/Pop.js'
-
-
 export default {
   props: {
     keep: {
       type: Object,
       required: true
     }
-    
   },
   setup(props) {
     const router = useRouter()
     return {
       async setActive() {
         try {
-          // AppState.keeps.views++;
-
           await keepsService.getKeep(props.keep.id)
-          
-
-
-
-          // keepsService.setActive(props.keep)
-
         } catch (error) {
           logger.error(error)
         }
@@ -74,8 +61,6 @@ export default {
       pkeeps: computed(() => AppState.profileKeeps),
       vaultKeeps: computed(() => AppState.vaultKeeps),
       activeKeep: computed(() => AppState.activeKeep),
-
-      // akeeps: computed(() => AppState.accountKeeps),
       async goToProfile() {
         Modal.getOrCreateInstance(document.getElementById("keep-modal")).hide()
         router.push({ name: 'Profile', params: { id: props.keep.creatorId } })
@@ -86,17 +71,12 @@ export default {
           if (await Pop.confirm("Are you sure you want to delete this keep?")) {
             await keepsService.deleteKeep(keepId)
             Pop.toast("Keep deleted")
-
           }
-
         }
         catch (error) {
           logger.error(error)
         }
-
-      }
-      ,
-      
+      },
     }
   }
 }
