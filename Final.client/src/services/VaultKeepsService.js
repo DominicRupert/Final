@@ -2,6 +2,8 @@ import { AppState } from "../AppState.js";
 import { api } from "./AxiosService.js";
 import { profilesService } from "../services/ProfilesService.js";
 import { keepsService } from "./KeepsService.js";
+import { vaultsService } from "./VaultsService.js";
+
 import { logger } from "../utils/Logger.js";
 
 class VaultKeepsService {
@@ -30,14 +32,16 @@ class VaultKeepsService {
     //     logger.log("[deleteVaultKeeps]", res.data);
     //     AppState.vaultKeeps = res.data;
     // }
-    async removeKeep(id){
-      await api.delete(`api/vaultkeeps/` + id);
-      logger.log("[removeKeep]", res.data);
-      AppState.vaultKeeps = AppState.vaultKeeps.filter(vk => vk.id != id);
-      AppState.vaultKeeps = res.data;
+    // async removeKeep(vaultId){
+    //   await api.delete(`api/vaultkeeps/`+ vaultId);
+    //   AppState.vaultKeeps = res.data;
 
       
-    }
+    // }
+    async deleteVaultKeeps(vaultKeepId) {
+      const res = await api.delete(`api/vaultkeeps/${vaultKeepId}`);
+      logger.log("[deleteVaultKeeps]", res.data);
+      AppState.vaultKeeps = AppState.vaultKeeps.filter(vk => vk.id !== vaultKeepId);
     
     // async removeKeeps(keepId, vaultId) {
     //   const vk = {vaultId,keepId}
@@ -51,6 +55,7 @@ class VaultKeepsService {
     // }
     
   }
+}
 
 
 export const vaultKeepsService = new VaultKeepsService();

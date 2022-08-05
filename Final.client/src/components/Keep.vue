@@ -1,7 +1,7 @@
 <template>
   <div
     class="selectable card"
-    @click="setActive"
+    @click.stop="setActive"
     data-bs-target="#keep-modal"
     data-bs-toggle="modal"
   >

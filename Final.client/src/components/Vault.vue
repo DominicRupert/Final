@@ -4,6 +4,8 @@
     <p>
 
       {{ vault.name }}
+      <i class="mdi mdi-lock" v-if="vault.isPrivate"></i>
+      
 
     </p>
     <div>

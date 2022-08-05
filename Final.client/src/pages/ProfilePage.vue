@@ -1,8 +1,10 @@
 <template>
-  <div class="container">
+  <div class="container text-white">
     <h1>Profile Page</h1>
     <img :src="activeProfile.picture" class="img-fluid" alt="" />
     <h2>{{ profile.name }}</h2>
+    <h3>keeps: {{keeps.length}}</h3>
+    <h3>vaults: {{vaults.length}}</h3>
     <div class="container">
       <div class="row">
         <div class="col-md-6">

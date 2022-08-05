@@ -4,7 +4,7 @@
     <!-- <div class="row"> -->
       <!-- <div class="col-12"> -->
   <div>
-  <button class="btn btn-danger mdi mdi-delete" @click.prevent="deleteVaults">Delete vault</button>
+  <button class="btn rounded-0 p-3 m-3 btn-danger mdi mdi-delete" @click.prevent="deleteVaults">Delete vault</button>
   </div>
 </div>
   <div class="masonry-container">
@@ -60,6 +60,9 @@ export default {
         const router = useRouter();
         onMounted(async () => {
             try {
+                // if(vault.isPrivate && vault.userId !== AppState.user.id) {
+                //     router.push("/");
+                // }
                 // await vaultsService.getVaultsByUserId(route.params.id);
                 // await keepsService.getKeeps();
                 // await vaultsService.getVaultById(route.params.id);
@@ -67,6 +70,8 @@ export default {
                 // await keepsService.getKeepsByVaultId(route.params.id);
                 await vaultKeepsService.getVaultKeepsByVaultId(route.params.id);
                 await keepsService.getKeepsByVaultId(route.params.id);
+                // FIXME get the vault
+                await vaultsService.getVaultById(route.params.id);
                 // await vaultKeepsService.getVaultKeeps(route.params.id);
             }
             catch (error) {
@@ -85,11 +90,11 @@ export default {
        
             async deleteVaults(vaultId) {
                 try {
+                    debugger;
                     if(AppState.activeVault.creator.id !== AppState.account.id) {
                         Pop.toast("You can only delete your own vaults");
                     }
                     if (await Pop.confirm()) {
-                        // await vaultsService.getVaultById(route.params.id);
                         await vaultsService.deleteVaults(route.params.id);
                         router.push({ name: "Home" });
                         Pop.toast("Vault deleted");
@@ -101,16 +106,19 @@ export default {
                     Pop.toast(error.message);
                 }
             },
-            async deleteVaultKeeps() {
+            async deleteVaultKeeps(keep) {
                 try {
-                    await vaultKeepsService.deleteVaultKeeps(AppState.activeVault);
+                    if (await Pop.confirm()) {
+                        await vaultKeepsService.removeVaultKeeps(keep.id);
                     Pop.toast("VaultKeeps gone");
-                    router.push({
-                        name: "Profile",
-                        params: {
-                            id: props.activeVault.userId
-                        }
-                    });
+                        
+                    }
+                    // router.push({
+                    //     name: "Profile",
+                    //     params: {
+                    //         id: props.activeVault.userId
+                    //     }
+                    // });
                 }
                 catch (error) {
                     logger.error(error);
