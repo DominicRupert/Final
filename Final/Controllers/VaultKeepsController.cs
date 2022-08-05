@@ -33,9 +33,13 @@ namespace Final.Controllers
             try
             {
                 Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+                Vault vault = _vs.GetById(newVaultKeep.VaultId);
+                if (vault.CreatorId != userInfo.Id)
+                {
+                    throw new Exception("You can only add keeps to vaults that you created.");
+                }
                 newVaultKeep.CreatorId = userInfo.Id;
                 VaultKeep vaultKeep = _vks.Create(newVaultKeep);
-                // newVaultKeep.Creator = userInfo;
                 return Ok(newVaultKeep);
             }
             catch (Exception e)

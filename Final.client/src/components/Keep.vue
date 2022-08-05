@@ -14,11 +14,11 @@
           class="mdi mdi-delete btn text-danger btn-dark"
           @click.prevent="deleteKeep(keep.id)"
         ></button>
-        <!-- <button
+        <button
           v-if="keep.creator.id == account.id"
           class="mdi mdi-delete btn text-danger btn-success"
-          @click.prevent="removeKeep(keep.id)"
-        ></button> -->
+          @click.stop="deleteVaultKeeps"
+        ></button>
       </h3>
       <div class="d-flex ">
         <img
@@ -74,6 +74,8 @@ export default {
       vaults: computed(() => AppState.vaults),
       profile: computed(() => AppState.profile),
       pkeeps: computed(() => AppState.profileKeeps),
+      vaultKeeps: computed(() => AppState.vaultKeeps),
+      activeKeep: computed(() => AppState.activeKeep),
 
       // akeeps: computed(() => AppState.accountKeeps),
       async goToProfile() {
@@ -86,7 +88,7 @@ export default {
           if (await Pop.confirm("Are you sure you want to delete this keep?")) {
             await keepsService.deleteKeep(keepId)
             Pop.toast("Keep deleted")
-            AppState
+            
           }
           
         }
@@ -96,12 +98,12 @@ export default {
 
       }
       ,
-      async removeKeep(id) {
+      async deleteVaultKeeps() {
         try {
           if (await Pop.confirm("Are you sure you want to remove this keep?")) {
-            await vaultKeepsService.removeKeeps(AppState.activeVault.id, id)
+            await vaultKeepsService.removeKeep(props.keep.id)
             Pop.toast("Keep removed")
-            AppState
+            
           }
           
         }

@@ -16,12 +16,9 @@ namespace Final.Services
         }
         internal VaultKeep Create(VaultKeep newVaultKeep)
         {
-            Vault original = GetById(id);
-            if(original.CreatorId != userId)
-            {
-                throw new Exception ("no")
-            }
-            return _repo.Create(newVaultKeep);
+            VaultKeep original = _repo.Create(newVaultKeep);
+         
+            return newVaultKeep;
         }
         private static void Owner(string creatorId, string userId)
         {
@@ -41,7 +38,7 @@ namespace Final.Services
             VaultKeep found = _repo.Get(id);
             if (found == null)
             {
-                throw new Exception("Vault not found.");
+                throw new Exception("VaultkEEP not found.");
             }
             return found;
         }

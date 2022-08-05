@@ -28,15 +28,21 @@ namespace Final.Repositories
             VALUES
             (@VaultId, @KeepId, @CreatorId);
             SELECT LAST_INSERT_ID();";
-            newVaultKeep.Id = _db.ExecuteScalar<int>(sql, newVaultKeep);
+            int id = _db.ExecuteScalar<int>(sql, newVaultKeep);
+            newVaultKeep.Id = id;
             return newVaultKeep;
         }
 
         internal VaultKeep Get(int id)
         {
             string sql = @"
-            SELECT * FROM vaultkeeps
-            WHERE id = @id";
+            Select
+            vk.*,
+            v.*
+            from vaultkeeps vk
+            join vaults v on v.id = vk.vaultId
+            where vk.id = @id";
+            
             return _db.QueryFirstOrDefault<VaultKeep>(sql, new { id });
         }
 
