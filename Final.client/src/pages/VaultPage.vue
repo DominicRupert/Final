@@ -90,7 +90,7 @@ export default {
        
             async deleteVaults(vaultId) {
                 try {
-                    debugger;
+                    // debugger;
                     if(AppState.activeVault.creator.id !== AppState.account.id) {
                         Pop.toast("You can only delete your own vaults");
                     }
@@ -106,29 +106,29 @@ export default {
                     Pop.toast(error.message);
                 }
             },
-            async deleteVaultKeeps(keep) {
-                try {
-                    if (await Pop.confirm()) {
-                        await vaultKeepsService.removeVaultKeeps(keep.id);
-                    Pop.toast("VaultKeeps gone");
+            // async deleteVaultKeeps(keep) {
+            //     try {
+            //         if (await Pop.confirm()) {
+            //             await vaultKeepsService.deleteVaultKeeps(keep.id);
+            //         Pop.toast("VaultKeeps gone");
                         
-                    }
+            //         }
                     // router.push({
                     //     name: "Profile",
                     //     params: {
                     //         id: props.activeVault.userId
                     //     }
                     // });
-                }
-                catch (error) {
-                    logger.error(error);
-                    Pop.toast(error.message);
-                }
-            },
-        };
-    },
-    components: { VaultKeep }
+                // }
+                // catch (error) {
+                //     logger.error(error);
+                //     Pop.toast(error.message);
+                // }
+            
+        }
+    }
 }
+    // components: { VaultKeep }
 
 </script>
 

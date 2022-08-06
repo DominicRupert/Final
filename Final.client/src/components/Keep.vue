@@ -62,7 +62,7 @@ export default {
       vaultKeeps: computed(() => AppState.vaultKeeps),
       activeKeep: computed(() => AppState.activeKeep),
       async goToProfile() {
-        Modal.getOrCreateInstance(document.getElementById("keep-modal")).hide()
+        Modal.getOrCreateInstance(document.getElementById("keep-modal")).toggle()
         router.push({ name: 'Profile', params: { id: props.keep.creatorId } })
       },
       async deleteKeep(keepId) {

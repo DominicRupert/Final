@@ -57,7 +57,7 @@ export default {
     setup(props) {
         onMounted(async () => {
             try {
-                await vaultsService.getVaultsByUserId(AppState.vaults.userId);
+                // await vaultsService.getVaultsByUserId(AppState.vaults.userId);
                 await keepsService.getKeeps();
             }
             catch (e) {
@@ -66,15 +66,15 @@ export default {
             }
         });
         return {
-            async setActive() {
-                try {
-                    await keepsService.setActive(props.keep);
-                }
-                catch (e) {
-                    logger.error(e);
-                    Pop.toast(e.message);
-                }
-            },
+            // async setActive() {
+            //     try {
+            //         await keepsService.setActive(props.keep);
+            //     }
+            //     catch (e) {
+            //         logger.error(e);
+            //         Pop.toast(e.message);
+            //     }
+            // },
             keeps: computed(() => AppState.keeps)
         };
     },

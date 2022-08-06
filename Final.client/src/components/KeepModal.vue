@@ -98,7 +98,7 @@ export default {
     const route = useRoute()
     return {
 
-      keep: reactive(route.params.keep),
+      // keep: reactive(route.params.keep),
 
       keep: computed(() => AppState.activeKeep),
       vaults: computed(() => AppState.myVaults),
@@ -120,10 +120,14 @@ export default {
         Modal.getOrCreateInstance(document.getElementById("keep-modal")).hide();
         router.push({ name: "Profile", params: { id: AppState.activeKeep?.creatorId } });
       },
-      async deleteVaultKeeps(keepId) {
+      async deleteVaultKeeps() {
         try {
+          if(AppState.activeVault.creator.id !== AppState.account.id) {
+            Pop.toast("You can only delete your own keeps", "danger");
+            return;
+          }
           if (await Pop.confirm("Are you sure you want to remove this keep?")) {
-            await vaultKeepsService.removeKeep(keepId);
+            await vaultKeepsService.deleteVaultKeeps(route.params.id);
             Pop.toast("Keep removed")
           }
         }
