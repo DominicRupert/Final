@@ -1,8 +1,7 @@
 <template>
 <div class="container d-flex justify-content-center">
     <KeepModal />
-    <!-- <div class="row"> -->
-      <!-- <div class="col-12"> -->
+
   <div>
   <button class="btn rounded-0 p-3 m-3 btn-danger mdi mdi-delete" @click.prevent="deleteVaults">Delete vault</button>
   </div>
@@ -13,12 +12,9 @@
 <Keep :keep="k" class="" />
      </div>
   </div>
-        <!-- <h5 class="card-title">{{ vault.keep }}</h5> -->
-        <!-- <p class="card-text">{{ keep.description }}</p> -->
-      <!-- </div> -->
-    <!-- </div> -->
+   
     </div>
-  <!-- </div> -->
+ 
 </template>
 
 
@@ -60,19 +56,11 @@ export default {
         const router = useRouter();
         onMounted(async () => {
             try {
-                // if(vault.isPrivate && vault.userId !== AppState.user.id) {
-                //     router.push("/");
-                // }
-                // await vaultsService.getVaultsByUserId(route.params.id);
-                // await keepsService.getKeeps();
-                // await vaultsService.getVaultById(route.params.id);
-                // await vaultKeepsService.getVaultKeeps(route.params.id);
-                // await keepsService.getKeepsByVaultId(route.params.id);
+         
                 await vaultKeepsService.getVaultKeepsByVaultId(route.params.id);
                 await keepsService.getKeepsByVaultId(route.params.id);
                 // FIXME get the vault
                 await vaultsService.getVaultById(route.params.id);
-                // await vaultKeepsService.getVaultKeeps(route.params.id);
             }
             catch (error) {
                 logger.error(error);
@@ -106,24 +94,7 @@ export default {
                     Pop.toast(error.message);
                 }
             },
-            // async deleteVaultKeeps(keep) {
-            //     try {
-            //         if (await Pop.confirm()) {
-            //             await vaultKeepsService.deleteVaultKeeps(keep.id);
-            //         Pop.toast("VaultKeeps gone");
-                        
-            //         }
-                    // router.push({
-                    //     name: "Profile",
-                    //     params: {
-                    //         id: props.activeVault.userId
-                    //     }
-                    // });
-                // }
-                // catch (error) {
-                //     logger.error(error);
-                //     Pop.toast(error.message);
-                // }
+    
             
         }
     }

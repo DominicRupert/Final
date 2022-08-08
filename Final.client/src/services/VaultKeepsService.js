@@ -22,7 +22,6 @@ class VaultKeepsService {
   async createVaultKeeps(body) {
     const res = await api.post("api/vaultkeeps", body);
     logger.log("[createVaultKeeps]", res.data);
-    AppState.vaultKeeps.push(res.data);
   }
   // async deleteVaultKeeps(keepId, vaultId) {
   //   const vk = {vaultId,keepId}
@@ -37,7 +36,9 @@ class VaultKeepsService {
   // }
   async deleteVaultKeeps(vaultKeepId) {
     const res = await api.delete("api/vaultkeeps/"+ vaultKeepId);
-    AppState.vaultKeeps= res.data
+    logger.log("[deleteVaultKeeps]", res.data);
+    const index = AppState.activeVaultKeeps.findIndex((vk) => vk.vaultKeepId === vaultKeepId);
+    AppState.activeVaultKeeps.splice(index, 1);
   }
 
   // async removeKeeps(keepId, vaultId) {
