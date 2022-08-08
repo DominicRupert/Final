@@ -1,71 +1,53 @@
 <template>
   <Modal id="keep-modal" class="keepmodal">
-    <template #modal-title
-      >
+    <template #modal-title>
       <div class="d-flex justify-content-between align-items-center ">
-      {{ keep.name }} by: {{ keep.creator?.name }}
-      <img
-        @click="goToProfile"
-        :src="keep.creator?.picture"
-        class="pfp selectable object-fit rounded-circle"
-        alt=""
-      />
-      </div> 
+        {{ keep.name }} by: {{ keep.creator?.name }}
+        <img @click="goToProfile" :src="keep.creator?.picture" class="pfp selectable object-fit rounded-circle"
+          alt="" />
+      </div>
     </template>
     <template #modal-body>
       <div class="container-fluid position-relative">
         <div class="row">
           <div class="col-md-6 d-flex flex-column">
-           <div class="dropdown d-flex justify-content-center">
-          <button
-            class="btn btn-primary mb-3 dropdown-toggle"
-            type="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            Add to Vault
-          </button>
-          <ul class="dropdown-menu">
-            <li v-for="v in vaults" :key="v.id">
-              <a @click="addToVault(v.id)" class="dropdown-item">{{
-                v.name
-              }}</a>
-            </li>
-          </ul>
-        </div>
-        <div>
-            <img
-              :src="keep.img"
-              class="w-100 h-100 object-fit keepimg"
-              :alt="keep.img"
-            />
+            <div class="dropdown d-flex justify-content-center">
+              <button class="btn btn-primary mb-3 dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Add to Vault
+              </button>
+              <ul class="dropdown-menu">
+                <li v-for="v in vaults" :key="v.id">
+                  <a @click="addToVault(v.id)" class="dropdown-item">{{
+                      v.name
+                  }}</a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <img :src="keep.img" class="w-100 h-100 object-fit keepimg" :alt="keep.img" />
+            </div>
           </div>
-        </div>
-          <div
-            class="
+          <div class="
               col-md-6
               align-items-center
               flex-column
               justify-content-center
               d-flex
-            "
-          >
+            ">
             <h3>View Count: {{ keep.views }}</h3>
             <h3>Kept Count: {{ keep.kept }}</h3>
             <h3>Description: {{ keep.description }}</h3>
 
             <div>
-              <button
-                class="mdi mdi-delete btn text-danger btn-success"
-                @click.stop="deleteVaultKeeps(keep.id)"
-              >
+              <button class="mdi mdi-delete btn text-danger btn-success" @click.stop="deleteVaultKeeps(keep.id)">
                 Remove from vault?
               </button>
             </div>
           </div>
         </div>
       </div>
-  
+
     </template>
   </Modal>
 </template>
@@ -122,7 +104,7 @@ export default {
       },
       async deleteVaultKeeps() {
         try {
-          if(AppState.activeVault.creator.id !== AppState.account.id) {
+          if (AppState.activeVault.creator.id !== AppState.account.id) {
             Pop.toast("You can only delete your own keeps", "danger");
             return;
           }
@@ -143,18 +125,19 @@ export default {
 
 
 <style lang="scss" scoped>
-.keepmodal {
-}
+.keepmodal {}
+
 .pfp {
   height: 50px;
   width: 50px;
 }
+
 .keepimg {
   min-height: 50%;
+
   @media screen and (max-width: 768px) {
     min-height: 100%;
   }
-    
-  }
 
+}
 </style>
